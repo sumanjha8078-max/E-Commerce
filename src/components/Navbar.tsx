@@ -44,7 +44,7 @@ export default function Navbar() {
             href="/"
             className="text-3xl font-bold tracking-[4px] text-red-500"
           >
-            ESHOP
+            GreedyCart
           </Link>
 
           {/* Menu */}
