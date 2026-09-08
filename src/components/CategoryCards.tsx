@@ -80,7 +80,7 @@ export default function CategoryCards() {
               </h2>
 
               <button
-                className={`${item.btn} mt-5 px-8 py-3 rounded-full font-medium z-20`}
+                className={`${item.btn} mt-5 px-8 py-3 rounded-full font-medium z-20 transition-all duration-300 hover:scale-105 hover:shadow-lg`}
               >
                 Browse
               </button>
