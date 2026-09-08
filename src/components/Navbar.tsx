@@ -87,7 +87,13 @@ export default function Navbar() {
 
             <li>
               <Link
-                href="#"
+                href="/#news"
+                onClick={(e) => {
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    document.getElementById('news')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 className="hover:text-black hover:dark:text-white duration-200"
               >
                 Blogs

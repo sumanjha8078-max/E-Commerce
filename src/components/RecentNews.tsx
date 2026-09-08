@@ -27,7 +27,7 @@ const blogs = [
 
 export default function RecentNews() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
+    <section id="news" className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-black text-black dark:text-white">
           Recent News

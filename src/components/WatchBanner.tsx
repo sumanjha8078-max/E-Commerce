@@ -78,9 +78,14 @@ export default function WatchBanner() {
               Eaque reiciendis
             </p>
 
-            <button className="md:mt-8 mt-4 bg-white text-[#2ecc71] px-8 py-3 rounded-full font-medium hover:scale-105 duration-300">
+            <a 
+              href="https://www.amazon.com/s?k=smartwatch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="md:mt-8 mt-4 bg-white text-[#2ecc71] px-8 py-3 rounded-full font-medium hover:scale-105 duration-300 inline-block"
+            >
               Shop Now
-            </button>
+            </a>
           </motion.div>
         </div>
       </div>

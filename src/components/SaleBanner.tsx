@@ -88,9 +88,14 @@ export default function SaleBanner() {
               adipisicing elit. Eaque reiciendis
             </p>
 
-            <button className="md:mt-8 mt-2 bg-white text-[#ff2d3d] px-8 py-3 rounded-full font-medium hover:scale-105 duration-300">
+            <a 
+              href="https://www.amazon.com/s?k=headphones" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="md:mt-8 mt-2 bg-white text-[#ff2d3d] px-8 py-3 rounded-full font-medium hover:scale-105 duration-300 inline-block"
+            >
               Shop Now
-            </button>
+            </a>
           </div>
           </motion.div>
 

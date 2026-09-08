@@ -11,18 +11,21 @@ const slides = [
     title: "Wireless",
     big: "HEADPHONE",
     image: "/headphone.png",
+    href: "https://www.amazon.com/s?k=headphones",
   },
   {
     small: "Beats Solo",
     title: "Wireless",
     big: "VIRTUAL",
     image: "/vrmen.png",
+    href: "https://www.amazon.com/s?k=vr+headset",
   },
   {
     small: "Beats Solo",
     title: "Branded",
     big: "LAPTOPS",
     image: "/macbook.png",
+    href: "https://www.amazon.com/s?k=macbook",
   },
 ];
 
@@ -102,7 +105,10 @@ export default function HeroSlider() {
                       {item.big}
                     </motion.h2>
 
-                    <motion.button
+                    <motion.a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       initial={false}
                       animate={
                         isActive
@@ -112,10 +118,10 @@ export default function HeroSlider() {
                       transition={{ delay: 0.4, duration: 0.5 }}
                       whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.95 }}
-                      className="mt-6 md:mt-8 bg-[#ff2d3d] text-white px-8 md:px-9 py-2 md:py-3 rounded-full font-semibold"
+                      className="mt-6 md:mt-8 bg-[#ff2d3d] text-white px-8 md:px-9 py-2 md:py-3 rounded-full font-semibold inline-block"
                     >
                       Shop By Category
-                    </motion.button>
+                    </motion.a>
                   </motion.div>
 
                   <motion.div
