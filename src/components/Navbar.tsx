@@ -7,6 +7,8 @@ import {
   FaShoppingCart,
   FaSearch,
   FaChevronDown,
+  FaSun,
+  FaMoon,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
@@ -32,7 +34,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`${outfit.className} w-full bg-white dark:bg-gray-900`}
+      className={`${outfit.className} sticky top-0 z-50 w-full bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 transition-colors duration-300`}
     >
       <div className="max-w-7xl mx-auto px-6 h-[70px] flex items-center justify-between">
         
@@ -170,14 +172,10 @@ export default function Navbar() {
                 onClick={() =>
                   setTheme(theme === "dark" ? "light" : "dark")
                 }
-                className="text-2xl hover:scale-110 transition-all"
+                className="relative flex items-center justify-center w-[42px] h-[42px] rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:scale-110 transition-all duration-300 shadow-sm"
               >
-                <Image
-                  src={theme === "dark" ? "/dark.png" : "/light.png"}
-                  alt="theme"
-                  width={52}
-                  height={52}
-                />
+                <FaSun className={`absolute text-[22px] transition-all duration-500 ${theme === 'dark' ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100 text-yellow-500'}`} />
+                <FaMoon className={`absolute text-[22px] transition-all duration-500 ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100 text-blue-400' : 'opacity-0 -rotate-90 scale-50'}`} />
               </button>
             )}
         </div>

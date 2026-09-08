@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const cards = [
   {
@@ -65,11 +68,18 @@ const cards = [
 
 export default function CategoryCards() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16">
+    <section className="max-w-7xl mx-auto px-6 py-16 overflow-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {cards.map((item, index) => (
-          <div
+          <motion.div
             key={index}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.1,
+            }}
             className={`${item.span} ${item.className} group relative h-[320px] rounded-[24px] overflow-hidden p-8 flex items-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer`}
           >
             <div className="relative z-20">
@@ -102,7 +112,7 @@ export default function CategoryCards() {
               height={360}
               className="absolute right-0 bottom-0 object-contain max-h-[300px] w-auto transition-transform duration-500 group-hover:scale-110"
             />
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
