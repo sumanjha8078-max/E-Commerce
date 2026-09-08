@@ -17,7 +17,7 @@ const products = [
 
 export default function Products() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
+    <section id="products" className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-14">
         <h2 className="text-4xl font-black text-black dark:text-white">
           Our Products

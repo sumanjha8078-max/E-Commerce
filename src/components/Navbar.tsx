@@ -61,7 +61,13 @@ export default function Navbar() {
 
             <li>
               <Link
-                href="#"
+                href="/#products"
+                onClick={(e) => {
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 className="hover:text-black hover:dark:text-white duration-200"
               >
                 Shop
