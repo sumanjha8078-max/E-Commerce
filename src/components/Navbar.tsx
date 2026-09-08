@@ -44,8 +44,9 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="text-3xl font-bold tracking-[4px] text-red-500"
+            className="text-3xl font-bold tracking-[2px] text-red-500 flex items-center gap-2"
           >
+            <FaShoppingCart />
             GreedyCart
           </Link>
 

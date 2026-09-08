@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaPaperPlane, FaCheck } from "react-icons/fa";
+import { FaPaperPlane, FaCheck, FaShoppingCart } from "react-icons/fa";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -46,7 +46,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo */}
           <motion.div variants={childVariants} className="lg:col-span-1">
-            <h2 className="text-2xl md:text-4xl font-black text-[#ff2d3d]">
+            <h2 className="text-2xl md:text-4xl font-black text-[#ff2d3d] flex items-center gap-2">
+              <FaShoppingCart />
               GreedyCart
             </h2>
 
