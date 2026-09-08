@@ -52,6 +52,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-black hover:dark:text-white duration-200"
               >
                 Home
@@ -97,7 +98,9 @@ export default function Navbar() {
                 <ul className="space-y-2 text-[17px]">
                   <li>
                     <Link
-                      href="#"
+                      href="https://www.amazon.com/gp/movers-and-shakers"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="block px-4 py-3 rounded-xl hover:bg-red-100 hover:dark:bg-[#3e1d2b] hover:dark:text-white"
                     >
                       Trending Products
@@ -106,7 +109,9 @@ export default function Navbar() {
 
                   <li>
                     <Link
-                      href="#"
+                      href="https://www.amazon.com/Best-Sellers/zgbs"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="block px-4 py-3 rounded-xl hover:bg-red-100 hover:dark:bg-[#3e1d2b] hover:dark:text-white"
                     >
                       Best Selling
@@ -115,7 +120,9 @@ export default function Navbar() {
 
                   <li>
                     <Link
-                      href="#"
+                      href="https://www.amazon.com/gp/top-rated"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="block px-4 py-3 rounded-xl hover:bg-red-100 hover:dark:bg-[#3e1d2b] hover:dark:text-white"
                     >
                       Top Rated

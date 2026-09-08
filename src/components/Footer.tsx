@@ -34,7 +34,7 @@ export default function Footer() {
             </h3>
 
             <div className="flex flex-col gap-4 text-gray-600 dark:text-gray-400">
-              <Link href="/">Home</Link>
+              <Link href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</Link>
               <Link href="/about">About</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/blog">Blog</Link>
@@ -48,7 +48,7 @@ export default function Footer() {
             </h3>
 
             <div className="flex flex-col gap-4 text-gray-600 dark:text-gray-400">
-              <Link href="/">Home</Link>
+              <Link href="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</Link>
               <Link href="/about">About</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/blog">Blog</Link>
