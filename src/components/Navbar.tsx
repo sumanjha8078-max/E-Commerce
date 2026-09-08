@@ -1,8 +1,6 @@
 "use client";
 
-
 import Link from "next/link";
-import Image from "next/image";
 import {
   FaShoppingCart,
   FaSearch,
@@ -10,27 +8,29 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Outfit } from "next/font/google";
+import { useStore } from "../store/useStore";
 
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-
-
 export default function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  
+  // Global Store
+  const { cart, setIsCartOpen, searchQuery, setSearchQuery } = useStore();
 
-    const [search, setSearch] = useState("");
-    const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const { theme, setTheme } = useTheme();
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+  // Calculate total items (handling quantities)
+  const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <nav
@@ -150,20 +150,25 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search products..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-[0px] group-hover:w-[300px] transition-all duration-300 rounded-full border border-white dark:border-gray-900 group-hover:border-gray-300 group-hover:dark:border-gray-500 dark:bg-gray-900 bg-white dark:text-white px-4 py-2 pr-10 focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-[0px] group-hover:w-[300px] focus:w-[300px] transition-all duration-300 rounded-full border border-transparent dark:border-transparent group-hover:border-gray-300 group-hover:dark:border-gray-500 focus:border-[#ff2d3d] focus:dark:border-[#ff2d3d] dark:bg-gray-900 bg-gray-100 dark:text-white px-4 py-2 pr-10 focus:outline-none"
               />
               <FaSearch className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 group-hover:text-red-500 group-hover:dark:text-red-500" />
             </div>
 
           {/* Cart */}
-          <button className="relative text-[20px] text-gray-500 hover:text-black hover:dark:text-white duration-200">
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            className="relative text-[20px] text-gray-500 hover:text-black hover:dark:text-white duration-200 active:scale-95 transition-transform"
+          >
             <FaShoppingCart />
 
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-              4
-            </span>
+            {mounted && cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center animate-in zoom-in">
+                {cartItemCount}
+              </span>
+            )}
           </button>
 
           {/* Theme Toggle */}

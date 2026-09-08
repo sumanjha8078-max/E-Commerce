@@ -6,6 +6,9 @@ import { ThemeProvider } from "next-themes";
 import { Roboto } from "next/font/google";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Toaster } from "react-hot-toast";
+import CartDrawer from "@/components/CartDrawer";
+import QuickViewModal from "@/components/QuickViewModal";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -44,8 +47,11 @@ export default function RootLayout({
         defaultTheme="light"
         enableSystem={false}
         >
+          <Toaster position="top-center" />
           <Navbar/>
           {children}
+          <CartDrawer />
+          <QuickViewModal />
         </ThemeProvider>
       </body>
     </html>
