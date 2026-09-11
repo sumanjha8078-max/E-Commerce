@@ -79,7 +79,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                href="#"
+                href="/about"
                 className="hover:text-black hover:dark:text-white duration-200"
               >
                 About
