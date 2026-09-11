@@ -1,27 +1,32 @@
 "use client";
 
-
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 const blogs = [
   {
-    image: "/blog1.jpg",
-    date: "Jan 20, 2024",
-    author: "Dilshad",
-    title: "How to choose perfect smartwatch",
+    image: "/blog-iphone.jpg",
+    date: "Sep 22, 2023",
+    author: "The Verge",
+    title: "iPhone 15 Pro Review",
+    summary: "Apple's latest flagship phone features a new lighter titanium design and upgraded cameras, making a strong case for the Pro models.",
+    url: "https://www.theverge.com/23877190/apple-iphone-15-pro-max-review"
   },
   {
-    image: "/blog2.jpg",
-    date: "Jan 20, 2024",
-    author: "Satya",
-    title: "How to choose perfect gadget",
+    image: "/blog-vision.jpg",
+    date: "Jan 30, 2024",
+    author: "The Verge",
+    title: "Apple Vision Pro Review",
+    summary: "The Vision Pro offers moments of technological magic with impressive displays, but it's fundamentally a VR headset masquerading as AR.",
+    url: "https://www.theverge.com/24054862/apple-vision-pro-review-vr-ar-headset-features-price"
   },
   {
-    image: "/blog3.jpg",
-    date: "Jan 20, 2024",
-    author: "Sabir",
-    title: "How to choose perfect VR headset",
+    image: "/blog-macbook.jpg",
+    date: "Nov 6, 2023",
+    author: "The Verge",
+    title: "MacBook Pro M3 Max",
+    summary: "The M3 series chips bring exceptional power for demanding professional workflows, retaining the well-regarded design.",
+    url: "https://www.theverge.com/23951655/apple-macbook-pro-m3-max-review"
   },
 ];
 
@@ -50,8 +55,8 @@ export default function RecentNews() {
                 delay: index * 0.12,
               }}
               className="group cursor-pointer flex flex-col items-left"
+              onClick={() => window.open(item.url, '_blank')}
             >
-          {/* <div key={index}> */}
             <div className="overflow-hidden rounded-2xl">
               <Image
                 src={item.image}
@@ -66,21 +71,16 @@ export default function RecentNews() {
               {item.date} by {item.author}
             </p>
 
-            <h3 className="text-lg font-bold text-black dark:text-white mt-3">
+            <h3 className="text-lg font-bold text-black dark:text-white mt-3 group-hover:text-red-500 transition-colors">
               {item.title}
             </h3>
 
             <p className="text-base text-gray-600 dark:text-gray-400 mt-3 leading-relaxed">
-              minima facere deserunt vero illo beatae deleniti eius dolores
-              consequuntur, eligendi corporis maiores molestiae laudantium.
-              Porro?
+              {item.summary}
             </p>
-          {/* </div> */}
           </motion.div>
         ))}
       </div>
     </section>
   );
 }
-
-
