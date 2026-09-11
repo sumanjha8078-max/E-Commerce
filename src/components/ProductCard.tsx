@@ -111,9 +111,21 @@ export default function Products() {
                   <h3 className="text-lg font-bold text-black dark:text-white transition-colors group-hover:text-[#ff2d3d]">
                     {item.name}
                   </h3>
-                  <p className="mt-1 text-lg font-black text-gray-700 dark:text-gray-300">
-                    ${item.price}
-                  </p>
+                  <div className="mt-1 flex items-center justify-center gap-2">
+                    <span className="text-lg font-black text-[#ff2d3d] dark:text-[#ff2d3d]">
+                      ${item.price}
+                    </span>
+                    {item.originalPrice && (
+                      <>
+                        <span className="text-sm font-medium text-gray-400 line-through">
+                          ${item.originalPrice}
+                        </span>
+                        <span className="text-[10px] font-bold text-green-600 bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded">
+                          {Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             );

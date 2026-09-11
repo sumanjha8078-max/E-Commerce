@@ -64,9 +64,21 @@ export default function QuickViewModal() {
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
               {quickViewProduct.name}
             </h2>
-            <p className="text-2xl font-bold text-gray-500 mt-4 mb-6">
-              ${quickViewProduct.price}
-            </p>
+            <div className="flex items-center gap-3 mt-4 mb-6">
+              <span className="text-3xl font-black text-[#ff2d3d]">
+                ${quickViewProduct.price}
+              </span>
+              {quickViewProduct.originalPrice && (
+                <>
+                  <span className="text-xl font-bold text-gray-400 line-through">
+                    ${quickViewProduct.originalPrice}
+                  </span>
+                  <span className="text-sm font-bold text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">
+                    {Math.round(((quickViewProduct.originalPrice - quickViewProduct.price) / quickViewProduct.originalPrice) * 100)}% off
+                  </span>
+                </>
+              )}
+            </div>
             
             <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
               {quickViewProduct.description}

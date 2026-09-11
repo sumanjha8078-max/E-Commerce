@@ -71,7 +71,12 @@ export default function CartDrawer() {
 
                 <div className="flex-1">
                   <h3 className="font-bold text-gray-900 dark:text-white line-clamp-1">{item.name}</h3>
-                  <p className="text-[#ff2d3d] font-bold">${item.price}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-[#ff2d3d] font-bold">${item.price}</p>
+                    {item.originalPrice && (
+                      <p className="text-xs text-gray-400 line-through">${item.originalPrice}</p>
+                    )}
+                  </div>
                   
                   <div className="flex items-center gap-3 mt-2">
                     <button
