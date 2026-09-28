@@ -1,23 +1,16 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Product } from '../data/products';
-
-export interface CartItem extends Product {
-  quantity: number;
-}
+import { Product } from '@/types';
 
 interface StoreState {
-  cart: CartItem[];
-  wishlist: string[]; // array of product IDs
+  watchlist: Product[];
   searchQuery: string;
-  isCartOpen: boolean;
+  isCartOpen: boolean; // Reused for Watchlist Drawer
   quickViewProduct: Product | null;
   
   // Actions
-  addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  toggleWishlist: (productId: string) => void;
+  toggleWatchlist: (product: Product) => void;
+  removeFromWatchlist: (productId: string) => void;
   setSearchQuery: (query: string) => void;
   setIsCartOpen: (isOpen: boolean) => void;
   setQuickViewProduct: (product: Product | null) => void;
@@ -26,55 +19,32 @@ interface StoreState {
 export const useStore = create<StoreState>()(
   persist(
     (set) => ({
-      cart: [],
-      wishlist: [],
+      watchlist: [],
       searchQuery: '',
       isCartOpen: false,
       quickViewProduct: null,
 
-      addToCart: (product, quantity = 1) =>
+      toggleWatchlist: (product) =>
         set((state) => {
-          const existingItem = state.cart.find((item) => item.id === product.id);
-          if (existingItem) {
-            return {
-              cart: state.cart.map((item) =>
-                item.id === product.id
-                  ? { ...item, quantity: item.quantity + quantity }
-                  : item
-              ),
-            };
+          const exists = state.watchlist.find((item) => item.id === product.id);
+          if (exists) {
+            return { watchlist: state.watchlist.filter((item) => item.id !== product.id) };
           }
-          return { cart: [...state.cart, { ...product, quantity }] };
+          return { watchlist: [...state.watchlist, product] };
         }),
 
-      removeFromCart: (productId) =>
+      removeFromWatchlist: (productId) =>
         set((state) => ({
-          cart: state.cart.filter((item) => item.id !== productId),
-        })),
-
-      updateQuantity: (productId, quantity) =>
-        set((state) => ({
-          cart: state.cart.map((item) =>
-            item.id === productId ? { ...item, quantity: Math.max(1, quantity) } : item
-          ),
-        })),
-
-      toggleWishlist: (productId) =>
-        set((state) => ({
-          wishlist: state.wishlist.includes(productId)
-            ? state.wishlist.filter((id) => id !== productId)
-            : [...state.wishlist, productId],
+          watchlist: state.watchlist.filter((item) => item.id !== productId),
         })),
 
       setSearchQuery: (query) => set({ searchQuery: query }),
-      
       setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
-      
       setQuickViewProduct: (product) => set({ quickViewProduct: product }),
     }),
     {
       name: 'greedycart-storage',
-      partialize: (state) => ({ cart: state.cart, wishlist: state.wishlist }), // Only persist cart and wishlist in localStorage
+      partialize: (state) => ({ watchlist: state.watchlist }), 
     }
   )
 );

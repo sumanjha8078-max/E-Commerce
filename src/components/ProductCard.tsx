@@ -3,20 +3,30 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaHeart, FaRegHeart, FaEye, FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaEye, FaFire } from "react-icons/fa";
 import { useStore } from "../store/useStore";
 import { products } from "../data/products";
 import toast from "react-hot-toast";
 
-export default function Products() {
-  const { addToCart, wishlist, toggleWishlist, searchQuery, setQuickViewProduct } = useStore();
+const getVendorColors = (vendorName: string) => {
+  switch(vendorName) {
+    case 'Amazon': return 'bg-[#232F3E] text-white';
+    case 'Flipkart': return 'bg-[#2874F0] text-[#FFE11B]';
+    case 'Myntra': return 'bg-[#FF3F6C] text-white';
+    case 'JioMart': return 'bg-[#008CCF] text-white';
+    case 'TataCliq': return 'bg-black text-white';
+    default: return 'bg-gray-800 text-white';
+  }
+};
+
+export default function ProductCard() {
+  const { toggleWatchlist, watchlist, searchQuery, setQuickViewProduct } = useStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Filter products based on the global search query
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -24,107 +34,105 @@ export default function Products() {
 
   return (
     <section id="products" className="max-w-7xl mx-auto px-6 py-20 min-h-[500px]">
-      <div className="text-center mb-14">
-        <h2 className="text-4xl font-black text-black dark:text-white">
-          Our Products
-        </h2>
-
-        <p className="text-sm text-gray-400 mt-3">Explore Our Products</p>
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white flex items-center gap-3">
+            Trending Price Drops <FaFire className="text-[#ff2d3d]"/>
+          </h2>
+          <p className="text-sm text-gray-400 mt-2">The deepest discounts across all platforms right now.</p>
+        </div>
       </div>
 
       {filteredProducts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 bg-gray-50 dark:bg-gray-800/30 rounded-3xl">
           <span className="text-6xl mb-4">🔍</span>
-          <p className="text-xl font-medium">No products found for "{searchQuery}"</p>
+          <p className="text-xl font-medium">No deals found for "{searchQuery}"</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((item, index) => {
-            const isLiked = mounted ? wishlist.includes(item.id) : false;
+            const isTracked = mounted ? watchlist.some(w => w.id === item.id) : false;
+            const topOffer = item.offers[0]; // Already sorted by lowest price
+            const vendorColors = getVendorColors(topOffer.vendorName);
             
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 0.5,
-                  delay: (index % 4) * 0.1, // Stagger effect
-                }}
-                className="group cursor-pointer flex flex-col items-center"
+                transition={{ duration: 0.4, delay: (index % 4) * 0.1 }}
+                className="group cursor-pointer flex flex-col bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-300"
+                onClick={() => setQuickViewProduct(item)}
               >
-                <div className="group relative bg-[#f1f1f1] dark:bg-gray-800 rounded-xl h-[240px] w-full flex items-center justify-center overflow-hidden shadow-sm transition-all duration-300 hover:shadow-xl">
+                {/* Image Section */}
+                <div className="relative h-[220px] w-full bg-[#f8f9fa] dark:bg-gray-900/50 flex items-center justify-center p-6">
+                  {/* GreedyScore Badge */}
+                  <div className="absolute top-3 left-3 z-10 bg-black text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                    Score: <span className="text-[#00ff88]">{item.greedyScore}</span>
+                  </div>
+
                   <Image
                     src={item.image}
                     alt={item.name}
-                    width={260}
+                    width={200}
                     height={200}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-[2px]"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                   />
 
-                  {/* Wishlist Button */}
+                  {/* Watchlist Button */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleWishlist(item.id);
-                      toast.success(isLiked ? 'Removed from wishlist' : 'Added to wishlist!');
+                      toggleWatchlist(item);
+                      toast.success(isTracked ? 'Removed from Watchlist' : 'Deal Alert Set!');
                     }}
-                    className="absolute top-3 right-3 z-20 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-2.5 rounded-full shadow-md hover:scale-110 active:scale-95 transition-all duration-200 group-hover:opacity-100 opacity-0 sm:opacity-100"
+                    className="absolute top-3 right-3 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow hover:scale-110 transition-all"
                   >
-                    {isLiked ? (
-                      <FaHeart className="text-[#ff2d3d] text-lg transition-transform duration-300 scale-110" />
+                    {isTracked ? (
+                      <FaHeart className="text-[#ff2d3d] text-sm" />
                     ) : (
-                      <FaRegHeart className="text-gray-500 text-lg transition-transform duration-300 hover:text-[#ff2d3d]" />
+                      <FaRegHeart className="text-gray-400 hover:text-[#ff2d3d] text-sm" />
                     )}
                   </button>
-
-                  {/* Quick Add / Quick View Hover Area */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 gap-3 bg-black/40 backdrop-blur-[2px]">
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart(item);
-                        toast.success(`${item.name} added to cart!`, { icon: '🛒' });
-                      }}
-                      className="bg-[#ff2d3d] text-white px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-black transition-colors duration-300 translate-y-6 group-hover:translate-y-0 shadow-lg"
-                    >
-                      <FaShoppingCart className="text-sm" /> Add to cart
-                    </button>
-                    
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setQuickViewProduct(item);
-                      }}
-                      className="bg-white text-black px-6 py-2.5 rounded-full font-semibold flex items-center gap-2 hover:bg-gray-200 transition-colors duration-300 translate-y-6 group-hover:translate-y-0 shadow-lg"
-                    >
-                      <FaEye className="text-sm" /> Quick View
-                    </button>
+                  
+                  {/* Quick View Overlay */}
+                  <div className="absolute inset-0 bg-black/5 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="bg-white text-black px-4 py-2 rounded-full font-bold text-xs flex items-center gap-2 shadow-lg translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                      <FaEye /> Compare Prices
+                    </div>
                   </div>
                 </div>
 
-                <div className="w-full text-center mt-5">
-                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                    {item.category}
+                {/* Content Section */}
+                <div className="p-5 flex-1 flex flex-col">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block">
+                    {item.category} • {item.offers.length} Stores
                   </span>
-                  <h3 className="text-lg font-bold text-black dark:text-white transition-colors group-hover:text-[#ff2d3d]">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 mb-3 leading-tight group-hover:text-[#ff2d3d] transition-colors">
                     {item.name}
                   </h3>
-                  <div className="mt-1 flex items-center justify-center gap-2">
-                    <span className="text-lg font-black text-[#ff2d3d] dark:text-[#ff2d3d]">
-                      ${item.price}
-                    </span>
-                    {item.originalPrice && (
-                      <>
-                        <span className="text-sm font-medium text-gray-400 line-through">
-                          ${item.originalPrice}
-                        </span>
-                        <span className="text-[10px] font-bold text-green-600 bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded">
-                          {Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off
-                        </span>
-                      </>
-                    )}
+                  
+                  <div className="mt-auto">
+                    <p className="text-[11px] text-gray-500 mb-1">Lowest price found on:</p>
+                    <div className="flex items-center justify-between">
+                       <div className="flex flex-col">
+                          <span className="text-xl font-black text-[#ff2d3d]">
+                            ₹{item.lowestPrice.toLocaleString('en-IN')}
+                          </span>
+                          {topOffer.originalPrice > topOffer.price && (
+                            <span className="text-xs text-gray-400 line-through">
+                              ₹{topOffer.originalPrice.toLocaleString('en-IN')}
+                            </span>
+                          )}
+                       </div>
+                       
+                       <div className="text-right">
+                          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm ${vendorColors}`}>
+                            {topOffer.vendorName}
+                          </span>
+                       </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>

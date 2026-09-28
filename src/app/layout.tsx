@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import CartDrawer from "@/components/CartDrawer";
 import QuickViewModal from "@/components/QuickViewModal";
 
+import SessionWrapper from "@/components/SessionWrapper";
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -42,17 +44,19 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        <ThemeProvider 
-        attribute="class"
-        defaultTheme="light"
-        enableSystem={false}
-        >
-          <Toaster position="top-center" />
-          <Navbar/>
-          {children}
-          <CartDrawer />
-          <QuickViewModal />
-        </ThemeProvider>
+        <SessionWrapper>
+          <ThemeProvider 
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          >
+            <Toaster position="top-center" />
+            <Navbar/>
+            {children}
+            <CartDrawer />
+            <QuickViewModal />
+          </ThemeProvider>
+        </SessionWrapper>
       </body>
     </html>
   );
