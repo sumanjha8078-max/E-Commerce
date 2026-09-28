@@ -43,22 +43,6 @@ export default async function LoginPage({ searchParams }: { searchParams: { call
                 Continue with Google
               </button>
             </form>
-
-            {/* GitHub Form */}
-            <form
-              action={async () => {
-                "use server"
-                await signIn("github")
-              }}
-            >
-              <button
-                type="submit"
-                className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm bg-white dark:bg-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all"
-              >
-                <FaGithub className="text-black dark:text-white text-lg" />
-                Continue with GitHub
-              </button>
-            </form>
           </div>
 
           <div className="mt-6">
