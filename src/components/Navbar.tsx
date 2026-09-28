@@ -114,9 +114,14 @@ export default function Navbar() {
                   </button>
                 </div>
               ) : (
-                <button onClick={() => signIn()} className="bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black px-5 py-2 rounded-full text-xs font-bold shadow-md transition-colors">
-                  Sign In
-                </button>
+                <div className="flex items-center gap-2">
+                  <Link href="/login" className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-black dark:text-white px-5 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer">
+                    Sign In
+                  </Link>
+                  <Link href="/login" className="bg-[#ff2d3d] hover:bg-[#e02635] text-white px-5 py-2 rounded-full text-xs font-bold shadow-md transition-colors cursor-pointer">
+                    Sign Up
+                  </Link>
+                </div>
               )}
             </div>
           )}
