@@ -87,7 +87,8 @@ export default function RootLayout({
             />
             <Navbar/>
             <StoreHydrator />
-            <main id="content" className="flex-1 flex flex-col">{children}</main>\n            <Footer />
+            <main id="content" className="flex-1 flex flex-col">{children}</main>
+            <Footer />
             <CartDrawer />
             <QuickViewModal />
           </ThemeProvider>

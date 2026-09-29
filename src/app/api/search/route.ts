@@ -41,9 +41,7 @@ export async function GET(request: Request) {
             vendorName: name,
             price: Math.floor(price * priceMod),
             originalPrice: Math.floor(price * (priceMod + 0.2)),
-            url: name === 'Amazon' ? `https://www.amazon.in/s?k=${encodeURIComponent(item.title)}` : 
-                 name === 'Flipkart' ? `https://www.flipkart.com/search?q=${encodeURIComponent(item.title)}` : 
-                 name === 'Myntra' ? `https://www.myntra.com/${encodeURIComponent(item.title)}` : item.link,
+            url: item.link || buildOutboundUrl(name, item.title),
             inStock: true,
             deliveryDays: Math.floor(Math.random() * 4) + 1,
           });

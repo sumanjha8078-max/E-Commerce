@@ -1,6 +1,7 @@
+import { buildOutboundUrl } from "../lib/vendors";
 import { Product } from '@/types';
 
-export const products: Product[] = [
+const rawProducts: Product[] = [
   { 
     id: "1", name: "Apple iPhone 15 Pro Max (256GB)", lowestPrice: 148900, greedyScore: 9.8, image: "https://placehold.co/800x800/png?text=Product+Image", category: "Mobiles", 
     description: "Forged in titanium and featuring the groundbreaking A17 Pro chip.",
@@ -125,3 +126,12 @@ export const products: Product[] = [
     ]
   },
 ];
+
+
+export const products: Product[] = rawProducts.map(p => ({
+  ...p,
+  offers: p.offers.map(o => ({
+    ...o,
+    url: buildOutboundUrl(o.vendorName, p.name)
+  }))
+}));
