@@ -72,12 +72,10 @@ export default function ProductCard() {
                     Score: <span className="text-[#00ff88]">{item.greedyScore}</span>
                   </div>
 
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.name}
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                    className="w-[200px] h-[200px] object-contain transition-transform duration-500 group-hover:scale-110"
                   />
 
                   {/* Watchlist Button */}

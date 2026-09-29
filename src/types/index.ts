@@ -1,4 +1,4 @@
-export type VendorName = 'Amazon' | 'Flipkart' | 'Myntra' | 'JioMart' | 'TataCliq';
+export type VendorName = 'Amazon' | 'Flipkart' | 'Myntra' | 'JioMart' | 'TataCliq' | (string & {});
 
 export interface VendorOffer {
   vendorName: VendorName;
