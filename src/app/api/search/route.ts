@@ -95,7 +95,11 @@ export async function GET(request: Request) {
       vendorName: vendor,
       price: price,
       originalPrice: Math.floor(price * (1.2 + Math.random() * 0.3)),
-      url: `https://example.com/redirect?vendor=${vendor}&q=${encodeURIComponent(query)}`,
+      url: vendor === 'Amazon' ? `https://www.amazon.in/s?k=${encodeURIComponent(query)}` : 
+           vendor === 'Flipkart' ? `https://www.flipkart.com/search?q=${encodeURIComponent(query)}` : 
+           vendor === 'Myntra' ? `https://www.myntra.com/${encodeURIComponent(query)}` : 
+           vendor === 'JioMart' ? `https://www.jiomart.com/catalogsearch/result?q=${encodeURIComponent(query)}` : 
+           `https://www.google.com/search?q=${encodeURIComponent(query + ' ' + vendor)}`,
       inStock: Math.random() > 0.1,
       deliveryDays: Math.floor(Math.random() * 5) + 1,
     };
