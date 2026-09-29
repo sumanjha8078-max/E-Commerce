@@ -19,38 +19,79 @@ const getVendorColors = (vendorName: string) => {
   }
 };
 
-export default function ProductCard() {
+export default function ProductCard({ 
+  title = "Trending Price Drops", 
+  defaultQuery = "trending",
+  hideSearch = false 
+}: { 
+  title?: React.ReactNode, 
+  defaultQuery?: string,
+  hideSearch?: boolean 
+} = {}) {
   const { toggleWatchlist, watchlist, searchQuery, setQuickViewProduct } = useStore();
   const [mounted, setMounted] = useState(false);
+
+  const [liveProducts, setLiveProducts] = useState(products);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const effectiveQuery = hideSearch ? defaultQuery : (searchQuery || defaultQuery);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(effectiveQuery)}`);
+        const data = await res.json();
+        if (data && data.length > 0) {
+          setLiveProducts(data);
+        } else {
+          setLiveProducts([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // Debounce the search slightly
+    const timer = setTimeout(() => {
+      fetchProducts();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [effectiveQuery]);
+
+  // If hideSearch is true, don't show the section if it's empty during a search
+  if (hideSearch && searchQuery) return null;
 
   return (
-    <section id="products" className="max-w-7xl mx-auto px-6 py-20 min-h-[500px]">
-      <div className="flex items-center justify-between mb-10">
+    <section className="max-w-7xl mx-auto px-6 py-10 min-h-[400px]">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white flex items-center gap-3">
-            Trending Price Drops <FaFire className="text-[#ff2d3d]"/>
+          <h2 className="text-3xl font-black text-black dark:text-white flex items-center gap-3">
+            {title}
           </h2>
-          <p className="text-sm text-gray-400 mt-2">The deepest discounts across all platforms right now.</p>
         </div>
       </div>
 
-      {filteredProducts.length === 0 ? (
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 bg-gray-50 dark:bg-gray-800/30 rounded-3xl">
+          <div className="w-12 h-12 border-4 border-[#ff2d3d] border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-xl font-medium">Hunting down the best deals...</p>
+        </div>
+      ) : liveProducts.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-500 bg-gray-50 dark:bg-gray-800/30 rounded-3xl">
           <span className="text-6xl mb-4">🔍</span>
           <p className="text-xl font-medium">No deals found for "{searchQuery}"</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((item, index) => {
+          {liveProducts.map((item, index) => {
             const isTracked = mounted ? watchlist.some(w => w.id === item.id) : false;
             const topOffer = item.offers[0]; // Already sorted by lowest price
             const vendorColors = getVendorColors(topOffer.vendorName);

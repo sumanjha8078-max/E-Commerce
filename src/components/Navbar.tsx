@@ -41,8 +41,8 @@ export default function Navbar() {
             <span className="flex items-center gap-1"><FaBolt className="text-yellow-300"/> Flash Deals on Electronics</span>
          </div>
          <div className="flex gap-4">
-            <Link href="#" className="hover:underline">Help Center</Link>
-            <Link href="#" className="hover:underline">Track Alerts</Link>
+            <Link href="/" className="hover:underline">Help Center</Link>
+            <Link href="/" className="hover:underline">Track Alerts</Link>
          </div>
       </div>
 

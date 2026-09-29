@@ -117,7 +117,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { call
                   </label>
                 </div>
                 <div className="text-sm">
-                  <a href="#" className="font-bold text-[#ff2d3d] hover:text-[#e02635]">
+                  <Link href="/login" className="font-bold text-[#ff2d3d] hover:text-[#e02635]">
                     Forgot your password?
                   </a>
                 </div>

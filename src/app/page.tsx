@@ -14,8 +14,30 @@ export default function Home() {
       {/* Quick Category Links */}
       <CategoryCards />
       
-      {/* Core Aggregator View: Trending Price Drops */}
-      <ProductCard />
+      {/* Core Aggregator View: Main Search / Trending */}
+      <div id="products">
+        <ProductCard title={
+          <>Trending Price Drops <span className="text-[#ff2d3d]">🔥</span></>
+        } />
+      </div>
+
+      <ProductCard 
+        title="Top Gadgets & Tech 💻" 
+        defaultQuery="laptops and smartwatches" 
+        hideSearch={true}
+      />
+
+      <ProductCard 
+        title="Fashion & Apparel 👕" 
+        defaultQuery="clothing and shoes" 
+        hideSearch={true}
+      />
+      
+      <ProductCard 
+        title="Home & Kitchen Appliances 🏠" 
+        defaultQuery="appliances" 
+        hideSearch={true}
+      />
       
       {/* Aggregator Benefits */}
       <Services />

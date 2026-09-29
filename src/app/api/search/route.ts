@@ -34,17 +34,22 @@ export async function GET(request: Request) {
             vendorName: name,
             price: Math.floor(price * priceMod),
             originalPrice: Math.floor(price * (priceMod + 0.2)),
-            url: item.link,
+            url: name === 'Amazon' ? `https://www.amazon.in/s?k=${encodeURIComponent(item.title)}` : 
+                 name === 'Flipkart' ? `https://www.flipkart.com/search?q=${encodeURIComponent(item.title)}` : 
+                 name === 'Myntra' ? `https://www.myntra.com/${encodeURIComponent(item.title)}` : item.link,
             inStock: true,
             deliveryDays: Math.floor(Math.random() * 4) + 1,
           });
 
           // The primary offer is the real one from SerpApi
+          const storeName = item.source || 'Store';
           const realOffer: VendorOffer = {
-            vendorName: item.source || 'Store',
+            vendorName: storeName,
             price: price,
             originalPrice: Math.floor(price * 1.15),
-            url: item.link,
+            url: storeName.toLowerCase().includes('amazon') ? `https://www.amazon.in/s?k=${encodeURIComponent(item.title)}` : 
+                 storeName.toLowerCase().includes('flipkart') ? `https://www.flipkart.com/search?q=${encodeURIComponent(item.title)}` : 
+                 storeName.toLowerCase().includes('myntra') ? `https://www.myntra.com/${encodeURIComponent(item.title)}` : item.link || '#',
             inStock: true,
             deliveryDays: 2,
           };
