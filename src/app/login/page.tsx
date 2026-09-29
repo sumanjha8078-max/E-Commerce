@@ -37,7 +37,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { call
             >
               <button
                 type="submit"
-                className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm bg-white dark:bg-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff2d3d] transition-all"
+                className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm bg-white dark:bg-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff2d3d] transition-all cursor-pointer"
               >
                 <FaGoogle className="text-red-500 text-lg" />
                 Continue with Google
@@ -126,7 +126,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { call
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-[#ff2d3d] hover:bg-[#e02635] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff2d3d] transition-colors"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-[#ff2d3d] hover:bg-[#e02635] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff2d3d] transition-colors cursor-pointer"
                 >
                   Sign In
                 </button>

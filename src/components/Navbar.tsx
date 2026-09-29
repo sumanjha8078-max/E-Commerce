@@ -66,7 +66,7 @@ export default function Navbar() {
               onChange={(e) => setLocalSearch(e.target.value)}
               className="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-[#ff2d3d] focus:bg-white dark:focus:bg-gray-900 rounded-full py-3 pl-12 pr-4 text-sm font-medium outline-none transition-all duration-300"
             />
-            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#ff2d3d] hover:bg-black text-white px-6 py-1.5 rounded-full text-sm font-bold transition-colors">
+            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#ff2d3d] hover:bg-black text-white px-6 py-1.5 rounded-full text-sm font-bold transition-colors cursor-pointer">
               Compare
             </button>
           </form>
@@ -76,7 +76,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 md:gap-6">
           <button 
             onClick={() => setIsCartOpen(true)}
-            className="relative flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-[#ff2d3d] dark:hover:text-[#ff2d3d] transition-colors"
+            className="relative flex flex-col items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-[#ff2d3d] dark:hover:text-[#ff2d3d] transition-colors cursor-pointer"
           >
             <div className="relative">
               <FaHeart className="text-2xl" />
@@ -93,7 +93,7 @@ export default function Navbar() {
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:scale-105 transition-all duration-300"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:scale-105 transition-all duration-300 cursor-pointer"
             >
               <FaSun className={`absolute text-lg transition-all duration-500 ${theme === 'dark' ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100 text-yellow-500'}`} />
               <FaMoon className={`absolute text-lg transition-all duration-500 ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100 text-blue-400' : 'opacity-0 -rotate-90 scale-50'}`} />
@@ -109,7 +109,7 @@ export default function Navbar() {
                     <span className="text-[11px] text-gray-500">Welcome,</span>
                     <span className="text-xs font-bold">{session.user?.name || 'User'}</span>
                   </div>
-                  <button onClick={() => signOut()} className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-black dark:text-white px-4 py-2 rounded-full text-xs font-bold transition-colors">
+                  <button onClick={() => signOut({ callbackUrl: '/' })} className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-black dark:text-white px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer">
                     Sign Out
                   </button>
                 </div>

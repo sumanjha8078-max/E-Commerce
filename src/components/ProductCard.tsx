@@ -87,7 +87,7 @@ export default function ProductCard() {
                       toggleWatchlist(item);
                       toast.success(isTracked ? 'Removed from Watchlist' : 'Deal Alert Set!');
                     }}
-                    className="absolute top-3 right-3 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow hover:scale-110 transition-all"
+                    className="absolute top-3 right-3 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow hover:scale-110 transition-all cursor-pointer"
                   >
                     {isTracked ? (
                       <FaHeart className="text-[#ff2d3d] text-sm" />
