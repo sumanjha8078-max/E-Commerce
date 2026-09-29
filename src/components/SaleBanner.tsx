@@ -89,7 +89,7 @@ export default function SaleBanner() {
               </p>
 
               <a 
-                href={buildOutboundUrl('Amazon', 'Sony WH-1000XM5')} 
+                href={`https://www.amazon.in/Sony-WH-1000XM5-Wireless-Cancellation-Headphones/dp/B09XS7JWHH?tag=greedycart-21`} 
                 target="_blank" 
                 rel="sponsored nofollow noopener noreferrer" 
                 className="md:mt-8 mt-2 bg-white text-[#ff2d3d] px-8 py-3 rounded-full font-medium hover:scale-105 duration-300 inline-block"
