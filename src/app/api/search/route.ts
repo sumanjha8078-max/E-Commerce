@@ -25,10 +25,12 @@ export async function GET(request: Request) {
 
       if (data.shopping_results && data.shopping_results.length > 0) {
         // Filter out products that don't have images so we don't use weird Picsum landscape photos
-        const validResults = data.shopping_results.filter((item: { thumbnail?: string }) => item.thumbnail);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const validResults = data.shopping_results.filter((item: any) => item.thumbnail);
         
         // 2. Map the real results into our Product type
-        const realProducts: Product[] = validResults.slice(0, 5).map((item: { extracted_price?: number, title?: string, link?: string, source?: string, thumbnail?: string, id?: string, product_id?: string }, index: number) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const realProducts: Product[] = validResults.slice(0, 5).map((item: any, index: number) => {
           const priceRaw = item.extracted_price || 0;
           const price = typeof priceRaw === 'number' ? priceRaw : parseFloat(String(priceRaw).replace(/[^0-9.]/g, ''));
           
