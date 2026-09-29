@@ -1,13 +1,8 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
   providers: [
     Google,
     CredentialsProvider({
@@ -18,13 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         if (credentials?.username === "demo" && credentials?.password === "demo") {
-          let user = await prisma.user.findUnique({ where: { email: "demo@greedycart.com" } })
-          if (!user) {
-            user = await prisma.user.create({
-              data: { name: "Demo User", email: "demo@greedycart.com" }
-            })
-          }
-          return user
+          return { id: "demo-user-1", name: "Demo User", email: "demo@greedycart.com" }
         }
         return null
       }
