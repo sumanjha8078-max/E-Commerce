@@ -7,15 +7,14 @@ import { useTheme } from "next-themes";
 import { Outfit } from "next/font/google";
 import { useStore } from "../store/useStore";
 // Note: next/navigation is standard for App router
-import { useRouter } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+
+import { useSession, signOut } from "next-auth/react";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-  const router = useRouter();
   const { data: session } = useSession();
   
   const { watchlist, setIsCartOpen, searchQuery, setSearchQuery } = useStore();
@@ -46,8 +45,7 @@ export default function Navbar() {
             <span className="flex items-center gap-1"><FaBolt className="text-yellow-300"/> Flash Deals on Electronics</span>
          </div>
          <div className="flex gap-4">
-            <Link href="/" className="hover:underline">Help Center</Link>
-            <Link href="/" className="hover:underline">Track Alerts</Link>
+            <Link href="/about" className="hover:underline">Help Center</Link>
          </div>
       </div>
 
@@ -72,7 +70,6 @@ export default function Navbar() {
               className="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-[#ff2d3d] focus:bg-white dark:focus:bg-gray-900 rounded-full py-3 pl-12 pr-4 text-sm font-medium outline-none transition-all duration-300"
             />
             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#ff2d3d] hover:bg-black text-white px-6 py-1.5 rounded-full text-sm font-bold transition-colors cursor-pointer">
-              Compare
             </button>
           </form>
         </div>

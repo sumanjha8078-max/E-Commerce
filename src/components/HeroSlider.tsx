@@ -7,36 +7,40 @@ import { useState } from "react";
 
 import { useStore } from "../store/useStore";
 
+import { products } from "../data/products";
+
+import toast from "react-hot-toast";
+
 const slides = [
   {
     small: "Massive Price Drop",
-    title: "Sony WH-1000XM5",
+    product: products.find(p => p.id === "2")!, // Sony WH-1000XM5
     big: "HEADPHONES",
     image: "/headphone.png",
-    query: "Sony",
-    btnText: "Compare Prices",
+    btnText: "View Offers",
+    action: "view",
   },
   {
     small: "Deal of the Day",
-    title: "Virtual Reality",
-    big: "VIRTUAL",
-    image: "/vrmen.png",
-    query: "Gaming",
-    btnText: "View Offers",
+    product: products.find(p => p.id === "5")!, // PS5
+    big: "GAMING",
+    image: "/vrmen.png", // keeping image but it's a VR guy. We can use product.image or keep placeholder
+    btnText: "Compare Prices",
+    action: "view",
   },
   {
     small: "Top Selling",
-    title: "MacBook Air M2",
+    product: products.find(p => p.id === "9")!, // MacBook
     big: "LAPTOPS",
     image: "/macbook.png",
-    query: "MacBook",
-    btnText: "Track Price",
+    btnText: "Add to Watchlist",
+    action: "track",
   },
 ];
 
 export default function HeroSlider() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const { setSearchQuery } = useStore();
+  const { setQuickViewProduct, toggleWatchlist, watchlist } = useStore();
 
   const settings = {
     dots: false,
@@ -72,7 +76,7 @@ export default function HeroSlider() {
                     transition={{ duration: 0.7 }}
                     className="relative z-20 order-2 md:order-1 text-center md:text-left pb-10 md:pb-0"
                   >
-                    <motion.h3
+                    <motion.p
                       initial={false}
                       animate={
                         isActive
@@ -83,9 +87,9 @@ export default function HeroSlider() {
                       className="text-[20px] md:text-[24px] font-bold text-[#ff2d3d] uppercase tracking-wider"
                     >
                       {item.small}
-                    </motion.h3>
+                    </motion.p>
 
-                    <motion.h1
+                    <motion.p
                       initial={false}
                       animate={
                         isActive
@@ -95,10 +99,10 @@ export default function HeroSlider() {
                       transition={{ delay: 0.2, duration: 0.5 }}
                       className="text-[40px] md:text-[70px] font-black leading-tight mt-2 md:mt-4 text-black dark:text-white"
                     >
-                      {item.title}
-                    </motion.h1>
+                      {item.product.name}
+                    </motion.p>
 
-                    <motion.h2
+                    <motion.p
                       initial={false}
                       animate={
                         isActive
@@ -109,12 +113,21 @@ export default function HeroSlider() {
                       className="text-[50px] sm:text-[65px] md:text-[110px] lg:text-[130px] font-bold leading-none text-black/5 dark:text-white/5 uppercase mt-2 md:mt-4 absolute -z-10 top-0 left-0"
                     >
                       {item.big}
-                    </motion.h2>
+                    </motion.p>
 
                     <motion.button
                       onClick={() => {
-                         setSearchQuery(item.query);
-                         document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                         if (item.action === 'view') {
+                            setQuickViewProduct(item.product);
+                         } else if (item.action === 'track') {
+                            toggleWatchlist(item.product);
+                            const isTracked = watchlist.some(w => w.id === item.product.id);
+                            if (!isTracked) {
+                               toast.success(item.product.name + " added to tracking alerts!");
+                            } else {
+                               toast.success(item.product.name + " removed from tracking alerts.");
+                            }
+                         }
                       }}
                       initial={false}
                       animate={
@@ -126,6 +139,7 @@ export default function HeroSlider() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="mt-6 md:mt-8 bg-black dark:bg-white text-white dark:text-black px-8 md:px-10 py-3 md:py-4 rounded-full font-bold shadow-xl inline-block cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#ff2d3d]/50"
+                      aria-label={`${item.btnText} for ${item.product.name}`}
                     >
                       {item.btnText}
                     </motion.button>

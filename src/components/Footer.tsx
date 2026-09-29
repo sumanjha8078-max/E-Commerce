@@ -52,52 +52,35 @@ export default function Footer() {
             </h2>
 
             <p className="mt-5 text-gray-600 dark:text-gray-400 leading-relaxed">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores
-              alias cum
+              Compare prices instantly across all top Indian platforms. Never overpay again.
             </p>
 
             <p className="mt-6 text-gray-500">
-              Made with 💖 by The Coding Journey
+              © {new Date().getFullYear()} GreedyCart
             </p>
           </motion.div>
 
-          {/* Important Links */}
+          {/* Company */}
           <motion.div variants={childVariants}>
             <h3 className="text-[20px] md:text-2xl font-bold mb-6 text-black dark:text-white">
-              Important Links
+              Company
             </h3>
 
             <div className="flex flex-col gap-4 text-gray-600 dark:text-gray-400">
-              <Link
-                href="/"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="hover:text-[#ff2d3d] transition-colors"
-              >
-                Home
-              </Link>
-              <Link href="/about" className="hover:text-[#ff2d3d] transition-colors">About</Link>
-              <Link href="/contact" className="hover:text-[#ff2d3d] transition-colors">Contact</Link>
-              <Link href="/blog" className="hover:text-[#ff2d3d] transition-colors">Blog</Link>
+              <Link href="/about" className="hover:text-[#ff2d3d] transition-colors">About Us</Link>
             </div>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* Legal */}
           <motion.div variants={childVariants}>
             <h3 className="text-[20px] md:text-2xl font-bold mb-6 text-black dark:text-white">
-              Quick Links
+              Legal
             </h3>
 
             <div className="flex flex-col gap-4 text-gray-600 dark:text-gray-400">
-              <Link
-                href="/"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="hover:text-[#ff2d3d] transition-colors"
-              >
-                Home
-              </Link>
-              <Link href="/about" className="hover:text-[#ff2d3d] transition-colors">About</Link>
-              <Link href="/contact" className="hover:text-[#ff2d3d] transition-colors">Contact</Link>
-              <Link href="/blog" className="hover:text-[#ff2d3d] transition-colors">Blog</Link>
+              <Link href="/privacy" className="hover:text-[#ff2d3d] transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-[#ff2d3d] transition-colors">Terms of Service</Link>
+              <Link href="/affiliate-disclosure" className="hover:text-[#ff2d3d] transition-colors">Affiliate Disclosure</Link>
             </div>
           </motion.div>
 
@@ -107,7 +90,7 @@ export default function Footer() {
               Newsletter
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+              Subscribe to get notified about major price drops.
             </p>
             <form onSubmit={handleSubscribe} className="relative flex items-center">
               <input

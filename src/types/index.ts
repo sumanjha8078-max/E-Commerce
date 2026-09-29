@@ -1,3 +1,4 @@
+import { Category } from "@/lib/categories";
 export type VendorName = 'Amazon' | 'Flipkart' | 'Myntra' | 'JioMart' | 'TataCliq' | (string & {});
 
 export interface VendorOffer {
@@ -12,7 +13,7 @@ export interface VendorOffer {
 export interface Product {
   id: string;
   name: string;
-  category: string;
+  category: Category;
   image: string;
   description: string;
   offers: VendorOffer[];

@@ -3,8 +3,8 @@ import { FaSearchDollar, FaCheckCircle, FaBell, FaStore } from "react-icons/fa";
 const services = [
   {
     icon: <FaSearchDollar />,
-    title: "Real-Time Tracking",
-    desc: "We scan prices every minute.",
+    title: process.env.NEXT_PUBLIC_DATA_MODE === 'live' ? "Live Tracking" : "Price Tracking",
+    desc: process.env.NEXT_PUBLIC_DATA_MODE === 'live' ? "We scan prices regularly." : "Track prices you care about (demo mode).",
   },
   {
     icon: <FaStore />,
@@ -19,7 +19,7 @@ const services = [
   {
     icon: <FaCheckCircle />,
     title: "GreedyScore Rating",
-    desc: "Our AI rates the quality of the deal.",
+    desc: "Algorithmically rates the quality of the deal.",
   },
 ];
 

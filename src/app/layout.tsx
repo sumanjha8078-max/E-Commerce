@@ -1,7 +1,10 @@
+import DemoDataBadge from "@/components/DemoDataBadge";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import StoreHydrator from "@/components/StoreHydrator";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
 import { Roboto } from "next/font/google";
 import "slick-carousel/slick/slick.css";
@@ -28,20 +31,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Greedy Cart | Discover Massive Price Drops",
-  description: "Your ultimate e-commerce aggregator. We scan Amazon, Flipkart, Myntra, and more to find the deepest live discounts on electronics, gadgets, and fashion.",
+  metadataBase: new URL('https://greedycart.vercel.app'),
+  title: {
+    template: '%s | GreedyCart',
+    default: 'GreedyCart — Compare Prices Across Amazon, Flipkart, Myntra & More'
+  },
+  description: 'Your ultimate e-commerce aggregator. We scan Amazon, Flipkart, Myntra, and more to find the deepest live discounts on electronics, gadgets, and fashion.',
   openGraph: {
-    title: "Greedy Cart | Live Price Drops",
-    description: "Compare prices instantly across all top Indian platforms. Stop overpaying.",
-    url: "https://greedycart.vercel.app",
-    siteName: "Greedy Cart",
-    locale: "en_IN",
-    type: "website",
+    title: 'GreedyCart — Compare Prices Across Amazon, Flipkart, Myntra & More',
+    description: 'Compare prices instantly across all top Indian platforms. Stop overpaying.',
+    url: 'https://greedycart.vercel.app',
+    siteName: 'GreedyCart',
+    locale: 'en_IN',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Greedy Cart | Live Price Drops",
-    description: "Compare prices instantly across all top Indian platforms. Stop overpaying.",
+    card: 'summary_large_image',
+    title: 'GreedyCart — Compare Prices Across Amazon, Flipkart, Myntra & More',
+    description: 'Compare prices instantly across all top Indian platforms. Stop overpaying.',
   },
 };
 
@@ -63,6 +70,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
           >
+            <DemoDataBadge />
             <Toaster 
               position="top-center" 
               toastOptions={{
@@ -76,7 +84,8 @@ export default function RootLayout({
               }}
             />
             <Navbar/>
-            {children}
+            <StoreHydrator />
+            <main id="content" className="flex-1 flex flex-col">{children}</main>\n            <Footer />
             <CartDrawer />
             <QuickViewModal />
           </ThemeProvider>

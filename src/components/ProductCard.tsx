@@ -1,27 +1,19 @@
 "use client";
+import { formatCurrency } from "../utils/formatCurrency";
 
-import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaHeart, FaRegHeart, FaEye, FaFire } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaEye } from "react-icons/fa";
 import { useStore } from "../store/useStore";
 import { products } from "../data/products";
+import { Product } from "../types";
 import { useDebounce } from "../hooks/useDebounce";
-import { formatCurrency } from "../utils/formatCurrency";
+import PriceTag from "../components/PriceTag";
+import { computeBestDiscount } from "../lib/score";
 import toast from "react-hot-toast";
 
-const getVendorColors = (vendorName: string) => {
-  const normalized = vendorName.toLowerCase();
-  if (normalized.includes('amazon')) return 'bg-[#232F3E] text-white';
-  if (normalized.includes('flipkart')) return 'bg-[#2874F0] text-[#FFE11B]';
-  if (normalized.includes('myntra')) return 'bg-[#FF3F6C] text-white';
-  if (normalized.includes('jiomart')) return 'bg-[#008CCF] text-white';
-  if (normalized.includes('tatacliq')) return 'bg-black text-white';
-  if (normalized.includes('croma')) return 'bg-[#00E9C5] text-black';
-  if (normalized.includes('reliance')) return 'bg-[#E42529] text-white';
-  if (normalized.includes('vijay')) return 'bg-[#DA251D] text-white';
-  return 'bg-gray-800 text-white';
-};
+
 
 export default function ProductCard({ 
   title = "Trending Price Drops", 
@@ -56,7 +48,21 @@ export default function ProductCard({
         if (!res.ok) throw new Error("Network response was not ok");
         const data = await res.json();
         if (data && data.length > 0) {
-          setLiveProducts(data);
+          let processedData = data;
+          if (effectiveQuery.toLowerCase().includes('trending')) {
+            // Sort by discount descending and filter out items with < 10% discount
+            processedData = data
+              .filter((p: Product) => {
+                const { maxDiscountPct } = computeBestDiscount(p);
+                return maxDiscountPct >= 10;
+              })
+              .sort((a: Product, b: Product) => {
+                const aDesc = computeBestDiscount(a).maxDiscountPct;
+                const bDesc = computeBestDiscount(b).maxDiscountPct;
+                return bDesc - aDesc;
+              });
+          }
+          setLiveProducts(processedData);
         } else {
           setLiveProducts([]);
         }
@@ -66,10 +72,10 @@ export default function ProductCard({
       } finally {
         setLoading(false);
       }
-    };
     
+    };
     fetchProducts();
-  }, [debouncedQuery]);
+  }, [debouncedQuery, effectiveQuery]);
 
   // If hideSearch is true, don't show the section if it's empty during a search
   if (hideSearch && searchQuery) return null;
@@ -125,8 +131,7 @@ export default function ProductCard({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {liveProducts.map((item, index) => {
             const isTracked = mounted ? watchlist.some(w => w.id === item.id) : false;
-            const topOffer = item.offers[0]; // Already sorted by lowest price
-            const vendorColors = getVendorColors(topOffer.vendorName);
+             // Already sorted by lowest price
             
             return (
               <motion.div
@@ -149,10 +154,9 @@ export default function ProductCard({
                 {/* Image Section */}
                 <div className="relative h-[220px] w-full bg-[#f8f9fa] dark:bg-gray-900/50 flex items-center justify-center p-6">
                   {/* GreedyScore Badge */}
-                  <div className="absolute top-3 left-3 z-10 bg-black text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-                    Score: <span className="text-[#00ff88]">{item.greedyScore}</span>
-                  </div>
+                  
 
+                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.image}
                     alt={item.name}
@@ -185,35 +189,38 @@ export default function ProductCard({
 
                 {/* Content Section */}
                 <div className="p-5 flex-1 flex flex-col">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 block">
-                    {item.category} • {item.offers.length} Stores
-                  </span>
-                  <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 mb-3 leading-tight group-hover:text-[#ff2d3d] transition-colors">
-                    {item.name}
-                  </h3>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 mb-1 leading-tight group-hover:text-[#ff2d3d] transition-colors">
+    {item.name}
+  </h3>
+  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 block">
+    {item.category} • {item.offers.length} Stores
+  </span>
                   
                   <div className="mt-auto">
-                    <p className="text-[11px] text-gray-500 mb-1">Lowest price found on:</p>
-                    <div className="flex items-center justify-between">
-                       <div className="flex flex-col">
-                          <span className="text-xl font-black text-[#ff2d3d]">
-                            {formatCurrency(item.lowestPrice)}
-                          </span>
-                          {topOffer.originalPrice > topOffer.price && (
-                            <span className="text-xs text-gray-400 line-through">
-                              ₹{topOffer.originalPrice.toLocaleString('en-IN')}
-                            </span>
-                          )}
-                       </div>
-                       
-                       <div className="text-right">
-                          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm ${vendorColors}`}>
-                            {topOffer.vendorName}
-                          </span>
-                       </div>
-                    </div>
-                  </div>
-                </div>
+                    
+  <PriceTag product={item} />
+  
+  <div className="flex items-center gap-2 mt-2 mb-4">
+      <div className={`text-[10px] font-bold px-2 py-1 rounded-sm shadow-sm flex items-center gap-1 ${item.greedyScore >= 9 ? 'bg-emerald-100 text-emerald-800' : item.greedyScore >= 8 ? 'bg-lime-100 text-lime-800' : item.greedyScore >= 7 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
+        GreedyScore: {item.greedyScore.toFixed(1)}
+      </div>
+      <span className="text-[10px] text-gray-500">
+        {item.greedyScore >= 9 ? 'Excellent deal' : item.greedyScore >= 8 ? 'Great deal' : item.greedyScore >= 7 ? 'Good deal' : 'Fair deal'}
+      </span>
+  </div>
+  
+  <div className="flex flex-col gap-2 mt-4">
+    {item.offers.slice(0, 3).map((offer, idx) => (
+      <div key={idx} className={`flex items-center justify-between text-[10px] px-2 py-1 rounded-md ${idx === 0 ? 'bg-red-50 text-red-700 font-bold border border-red-100' : 'bg-gray-50 text-gray-600'}`}>
+        <span>{offer.vendorName}</span>
+        <span>{formatCurrency(offer.price)}</span>
+      </div>
+    ))}
+  </div>
+  
+  </div>
+  </div>
+  
               </motion.div>
             );
           })}

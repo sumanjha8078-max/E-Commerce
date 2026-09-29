@@ -69,6 +69,7 @@ export default function QuickViewModal() {
              </div>
              
             <div className="flex-1 flex items-center justify-center min-h-[250px] mb-8">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={quickViewProduct.image}
                 alt={quickViewProduct.name}
@@ -135,7 +136,7 @@ export default function QuickViewModal() {
                               {discount > 0 && (
                                  <div className="text-xs text-gray-400 mt-0.5">
                                     <span className="line-through">{formatCurrency(offer.originalPrice)}</span>
-                                    <span className="text-green-500 ml-2 font-bold">{discount}% off</span>
+                                    <span className="text-green-500 ml-2 font-bold">{discount}% off (Save {formatCurrency(offer.originalPrice - offer.price)})</span>
                                  </div>
                               )}
                            </div>
@@ -144,7 +145,7 @@ export default function QuickViewModal() {
                               <a 
                                  href={offer.url}
                                  target="_blank"
-                                 rel="noopener noreferrer"
+                                 rel="sponsored nofollow noopener noreferrer"
                                  className={`px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-md hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-opacity-50 cursor-pointer ${colors.mainBg} ${colors.mainText}`}
                               >
                                  Buy on {offer.vendorName} <FaExternalLinkAlt className="text-[10px]"/>

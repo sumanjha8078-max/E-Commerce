@@ -1,10 +1,10 @@
 import { signIn } from "@/auth";
-import { FaGoogle, FaGithub, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaGoogle, FaEnvelope, FaLock } from "react-icons/fa";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
-export default async function LoginPage({ searchParams }: { searchParams: { callbackUrl?: string, error?: string } }) {
+export default async function LoginPage() {
   const session = await auth();
   if (session) redirect("/");
 

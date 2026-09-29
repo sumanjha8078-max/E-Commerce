@@ -1,5 +1,5 @@
 import CategoryCards from "@/components/CategoryCards";
-import Footer from "@/components/Footer";
+
 import HeroSlider from "@/components/HeroSlider";
 import ProductCard from "@/components/ProductCard";
 import SaleBanner from "@/components/SaleBanner";
@@ -9,6 +9,7 @@ export default function Home() {
   return (
     <div className="bg-white dark:bg-gray-900 overflow-x-hidden">
       {/* Massive Hero Section highlighting top deals */}
+      <h1 className="sr-only">GreedyCart - Compare prices across India&apos;s top stores</h1>
       <HeroSlider />
       
       {/* Quick Category Links */}
@@ -20,6 +21,7 @@ export default function Home() {
           <>Trending Price Drops <span className="text-[#ff2d3d]">🔥</span></>
         } />
       </div>
+
 
       <ProductCard 
         title="Top Gadgets & Tech 💻" 
@@ -45,7 +47,7 @@ export default function Home() {
       {/* Promotional Banner */}
       <SaleBanner />
       
-      <Footer />
     </div>
+
   );
 }

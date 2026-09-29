@@ -1,3 +1,5 @@
+import { computeGreedyScore } from '@/lib/score';
+import { buildOutboundUrl } from "@/lib/vendors";
 import { NextResponse } from 'next/server';
 import { Product, VendorName, VendorOffer } from '@/types';
 
@@ -52,9 +54,7 @@ export async function GET(request: Request) {
             vendorName: storeName,
             price: price,
             originalPrice: Math.floor(price * 1.15),
-            url: storeName.toLowerCase().includes('amazon') ? `https://www.amazon.in/s?k=${encodeURIComponent(item.title)}` : 
-                 storeName.toLowerCase().includes('flipkart') ? `https://www.flipkart.com/search?q=${encodeURIComponent(item.title)}` : 
-                 storeName.toLowerCase().includes('myntra') ? `https://www.myntra.com/${encodeURIComponent(item.title)}` : item.link || '#',
+            url: buildOutboundUrl(storeName, item.title || query), 
             inStock: true,
             deliveryDays: 2,
           };
@@ -67,16 +67,20 @@ export async function GET(request: Request) {
 
           const lowestPrice = offers[0].price;
 
-          return {
-            id: item.id || item.product_id || `real-prod-${index}`,
-            name: item.title,
+          const prod = {
+            id: `real-${index}-${item.product_id || item.id || Date.now()}`,
+            name: item.title || query,
             category: 'Search Result',
             image: item.thumbnail || `https://picsum.photos/seed/${index}/400/400`,
             description: item.snippet || `Real-time search result for ${query}`,
             offers: offers,
             lowestPrice: lowestPrice,
-            greedyScore: parseFloat((Math.random() * 2 + 8).toFixed(1)), // Score 8.0 - 10.0
+            greedyScore: 0,
           };
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          prod.greedyScore = computeGreedyScore(prod as any);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return prod as any;
         });
 
         return NextResponse.json(realProducts);
@@ -97,11 +101,7 @@ export async function GET(request: Request) {
       vendorName: vendor,
       price: price,
       originalPrice: Math.floor(price * (1.2 + Math.random() * 0.3)),
-      url: vendor === 'Amazon' ? `https://www.amazon.in/s?k=${encodeURIComponent(query)}` : 
-           vendor === 'Flipkart' ? `https://www.flipkart.com/search?q=${encodeURIComponent(query)}` : 
-           vendor === 'Myntra' ? `https://www.myntra.com/${encodeURIComponent(query)}` : 
-           vendor === 'JioMart' ? `https://www.jiomart.com/catalogsearch/result?q=${encodeURIComponent(query)}` : 
-           `https://www.google.com/search?q=${encodeURIComponent(query + ' ' + vendor)}`,
+      url: buildOutboundUrl(vendor, query), 
       inStock: Math.random() > 0.1,
       deliveryDays: Math.floor(Math.random() * 5) + 1,
     };
@@ -114,7 +114,8 @@ export async function GET(request: Request) {
 
   const winnerIndex = hashString(query) % vendors.length;
   const offers = vendors.map((v, i) => generateOffer(v, basePrice, i === winnerIndex));
-  const lowestPrice = Math.min(...offers.map(o => o.price));
+  const inStockOffers = offers.filter(o => o.inStock);
+  const lowestPrice = inStockOffers.length > 0 ? Math.min(...inStockOffers.map(o => o.price)) : Math.min(...offers.map(o => o.price));
 
   const mockProduct: Product = {
     id: `prod-${hashString(query)}`,
@@ -124,8 +125,9 @@ export async function GET(request: Request) {
     description: `Compare prices across Indian platforms for ${query}. We found the best deals!`,
     offers: offers.sort((a, b) => a.price - b.price),
     lowestPrice,
-    greedyScore: parseFloat((Math.random() * 3 + 7).toFixed(1)),
+    greedyScore: 0,
   };
+  mockProduct.greedyScore = computeGreedyScore(mockProduct);
 
   return NextResponse.json([mockProduct, {
       ...mockProduct,

@@ -44,6 +44,7 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: 'greedycart-storage',
+      skipHydration: true,
       partialize: (state) => ({ watchlist: state.watchlist }), 
     }
   )
