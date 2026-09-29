@@ -125,7 +125,7 @@ export default function HeroSlider() {
                       transition={{ delay: 0.4, duration: 0.5 }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="mt-6 md:mt-8 bg-black dark:bg-white text-white dark:text-black px-8 md:px-10 py-3 md:py-4 rounded-full font-bold shadow-xl inline-block"
+                      className="mt-6 md:mt-8 bg-black dark:bg-white text-white dark:text-black px-8 md:px-10 py-3 md:py-4 rounded-full font-bold shadow-xl inline-block cursor-pointer"
                     >
                       {item.btnText}
                     </motion.button>

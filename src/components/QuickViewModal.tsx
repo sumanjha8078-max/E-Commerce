@@ -35,7 +35,7 @@ export default function QuickViewModal() {
         >
           <button
             onClick={() => setQuickViewProduct(null)}
-            className="absolute top-4 right-4 z-20 p-2.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-500 hover:text-[#ff2d3d] transition-colors"
+            className="absolute top-4 right-4 z-20 p-2.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-500 hover:text-[#ff2d3d] transition-colors cursor-pointer"
           >
             <FaTimes />
           </button>
@@ -51,7 +51,7 @@ export default function QuickViewModal() {
                     toggleWatchlist(quickViewProduct);
                     toast.success(isTracked ? 'Removed from Watchlist' : 'Deal Alert Set!');
                   }}
-                  className="bg-white dark:bg-gray-800 p-2.5 rounded-full shadow hover:scale-110 transition-transform"
+                  className="bg-white dark:bg-gray-800 p-2.5 rounded-full shadow hover:scale-110 transition-transform cursor-pointer"
                 >
                   {isTracked ? (
                     <FaHeart className="text-[#ff2d3d] text-lg" />
@@ -62,12 +62,10 @@ export default function QuickViewModal() {
              </div>
              
             <div className="flex-1 flex items-center justify-center min-h-[250px] mb-8">
-              <Image
+              <img
                 src={quickViewProduct.image}
                 alt={quickViewProduct.name}
-                width={300}
-                height={300}
-                className="object-contain hover:scale-105 transition-transform duration-500 drop-shadow-xl"
+                className="w-[300px] h-[300px] object-contain hover:scale-105 transition-transform duration-500 drop-shadow-xl"
               />
             </div>
             

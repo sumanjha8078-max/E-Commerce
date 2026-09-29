@@ -24,8 +24,11 @@ export async function GET(request: Request) {
       const data = await res.json();
 
       if (data.shopping_results && data.shopping_results.length > 0) {
+        // Filter out products that don't have images so we don't use weird Picsum landscape photos
+        const validResults = data.shopping_results.filter((item: any) => item.thumbnail);
+        
         // 2. Map the real results into our Product type
-        const realProducts: Product[] = data.shopping_results.slice(0, 5).map((item: any, index: number) => {
+        const realProducts: Product[] = validResults.slice(0, 5).map((item: any, index: number) => {
           const priceRaw = item.extracted_price || 0;
           const price = typeof priceRaw === 'number' ? priceRaw : parseFloat(String(priceRaw).replace(/[^0-9.]/g, ''));
           
@@ -111,7 +114,7 @@ export async function GET(request: Request) {
     id: `prod-${hashString(query)}`,
     name: `${query.charAt(0).toUpperCase() + query.slice(1)} - Best Options`,
     category: isFashion ? 'Fashion' : 'General',
-    image: `https://picsum.photos/seed/${hashString(query)}/400/400`,
+    image: `https://placehold.co/400x400/png?text=Product+Not+Found`,
     description: `Compare prices across Indian platforms for ${query}. We found the best deals!`,
     offers: offers.sort((a, b) => a.price - b.price),
     lowestPrice,
@@ -123,6 +126,6 @@ export async function GET(request: Request) {
       id: `prod-${hashString(query)}-2`,
       name: `${query.charAt(0).toUpperCase() + query.slice(1)} (Alternative)`,
       lowestPrice: lowestPrice + 200,
-      image: `https://picsum.photos/seed/${hashString(query)+1}/400/400`,
+      image: `https://placehold.co/400x400/png?text=Alternative+Option`,
   }]);
 }
