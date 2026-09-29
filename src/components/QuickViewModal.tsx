@@ -1,19 +1,22 @@
 "use client";
 
 import { useStore } from "../store/useStore";
+import { formatCurrency } from "../utils/formatCurrency";
 import { FaTimes, FaHeart, FaRegHeart, FaExternalLinkAlt, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
-import Image from "next/image";
+
 import toast from "react-hot-toast";
 
 const getVendorColors = (vendorName: string) => {
-  switch(vendorName) {
-    case 'Amazon': return { bg: 'bg-[#FF9900]/10', text: 'text-[#FF9900]', border: 'border-[#FF9900]', mainBg: 'bg-[#232F3E]', mainText: 'text-white' };
-    case 'Flipkart': return { bg: 'bg-[#2874F0]/10', text: 'text-[#2874F0]', border: 'border-[#2874F0]', mainBg: 'bg-[#2874F0]', mainText: 'text-[#FFE11B]' };
-    case 'Myntra': return { bg: 'bg-[#FF3F6C]/10', text: 'text-[#FF3F6C]', border: 'border-[#FF3F6C]', mainBg: 'bg-[#FF3F6C]', mainText: 'text-white' };
-    case 'JioMart': return { bg: 'bg-[#008CCF]/10', text: 'text-[#008CCF]', border: 'border-[#008CCF]', mainBg: 'bg-[#008CCF]', mainText: 'text-white' };
-    case 'TataCliq': return { bg: 'bg-black/10 dark:bg-white/10', text: 'text-black dark:text-white', border: 'border-black dark:border-white', mainBg: 'bg-black', mainText: 'text-white' };
-    default: return { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-300', mainBg: 'bg-gray-800', mainText: 'text-white' };
-  }
+  const normalized = vendorName.toLowerCase();
+  if (normalized.includes('amazon')) return { bg: 'bg-[#FF9900]/10', text: 'text-[#FF9900]', border: 'border-[#FF9900]', mainBg: 'bg-[#232F3E]', mainText: 'text-white' };
+  if (normalized.includes('flipkart')) return { bg: 'bg-[#2874F0]/10', text: 'text-[#2874F0]', border: 'border-[#2874F0]', mainBg: 'bg-[#2874F0]', mainText: 'text-[#FFE11B]' };
+  if (normalized.includes('myntra')) return { bg: 'bg-[#FF3F6C]/10', text: 'text-[#FF3F6C]', border: 'border-[#FF3F6C]', mainBg: 'bg-[#FF3F6C]', mainText: 'text-white' };
+  if (normalized.includes('jiomart')) return { bg: 'bg-[#008CCF]/10', text: 'text-[#008CCF]', border: 'border-[#008CCF]', mainBg: 'bg-[#008CCF]', mainText: 'text-white' };
+  if (normalized.includes('tatacliq')) return { bg: 'bg-black/10 dark:bg-white/10', text: 'text-black dark:text-white', border: 'border-black dark:border-white', mainBg: 'bg-black', mainText: 'text-white' };
+  if (normalized.includes('croma')) return { bg: 'bg-[#00E9C5]/10', text: 'text-[#00E9C5]', border: 'border-[#00E9C5]', mainBg: 'bg-[#00E9C5]', mainText: 'text-black' };
+  if (normalized.includes('reliance')) return { bg: 'bg-[#E42529]/10', text: 'text-[#E42529]', border: 'border-[#E42529]', mainBg: 'bg-[#E42529]', mainText: 'text-white' };
+  if (normalized.includes('vijay')) return { bg: 'bg-[#DA251D]/10', text: 'text-[#DA251D]', border: 'border-[#DA251D]', mainBg: 'bg-[#DA251D]', mainText: 'text-white' };
+  return { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-300', mainBg: 'bg-gray-800', mainText: 'text-white' };
 };
 
 export default function QuickViewModal() {
@@ -27,7 +30,11 @@ export default function QuickViewModal() {
     <>
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[80] flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-300"
-        onClick={() => setQuickViewProduct(null)}
+        onClick={(e) => {
+           if (e.target === e.currentTarget) {
+              setQuickViewProduct(null);
+           }
+        }}
       >
         <div
           className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl relative flex flex-col md:flex-row animate-in zoom-in-95 duration-300"
@@ -123,24 +130,32 @@ export default function QuickViewModal() {
                         <div className="flex items-center justify-between sm:flex-col sm:items-end gap-3 sm:gap-2 pl-16 sm:pl-0">
                            <div className="text-left sm:text-right">
                               <div className="text-2xl font-black text-gray-900 dark:text-white">
-                                 ₹{offer.price.toLocaleString('en-IN')}
+                                 {formatCurrency(offer.price)}
                               </div>
                               {discount > 0 && (
                                  <div className="text-xs text-gray-400 mt-0.5">
-                                    <span className="line-through">₹{offer.originalPrice.toLocaleString('en-IN')}</span>
+                                    <span className="line-through">{formatCurrency(offer.originalPrice)}</span>
                                     <span className="text-green-500 ml-2 font-bold">{discount}% off</span>
                                  </div>
                               )}
                            </div>
                            
-                           <a 
-                              href={offer.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-md hover:shadow-xl ${colors.mainBg} ${colors.mainText}`}
-                           >
-                              Buy on {offer.vendorName} <FaExternalLinkAlt className="text-[10px]"/>
-                           </a>
+                           {offer.inStock ? (
+                              <a 
+                                 href={offer.url}
+                                 target="_blank"
+                                 rel="noopener noreferrer"
+                                 className={`px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-md hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-opacity-50 cursor-pointer ${colors.mainBg} ${colors.mainText}`}
+                              >
+                                 Buy on {offer.vendorName} <FaExternalLinkAlt className="text-[10px]"/>
+                              </a>
+                           ) : (
+                              <span 
+                                 className={`px-6 py-2 rounded-full font-bold text-sm flex items-center gap-2 transition-all shadow-sm opacity-50 cursor-not-allowed ${colors.mainBg} ${colors.mainText}`}
+                              >
+                                 Out of Stock
+                              </span>
+                           )}
                         </div>
                      </div>
                   );

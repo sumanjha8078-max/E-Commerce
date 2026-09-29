@@ -28,8 +28,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Greedy Cart",
-  description: "Your one-stop shop for electronics, gadgets, and more.",
+  title: "Greedy Cart | Discover Massive Price Drops",
+  description: "Your ultimate e-commerce aggregator. We scan Amazon, Flipkart, Myntra, and more to find the deepest live discounts on electronics, gadgets, and fashion.",
+  openGraph: {
+    title: "Greedy Cart | Live Price Drops",
+    description: "Compare prices instantly across all top Indian platforms. Stop overpaying.",
+    url: "https://greedycart.vercel.app",
+    siteName: "Greedy Cart",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Greedy Cart | Live Price Drops",
+    description: "Compare prices instantly across all top Indian platforms. Stop overpaying.",
+  },
 };
 
 export default function RootLayout({
@@ -50,7 +63,18 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
           >
-            <Toaster position="top-center" />
+            <Toaster 
+              position="top-center" 
+              toastOptions={{
+                className: 'dark:bg-gray-800 dark:text-white rounded-2xl shadow-xl font-medium border border-gray-100 dark:border-gray-700',
+                success: {
+                  iconTheme: {
+                    primary: '#ff2d3d',
+                    secondary: '#fff',
+                  },
+                },
+              }}
+            />
             <Navbar/>
             {children}
             <CartDrawer />

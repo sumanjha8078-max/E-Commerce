@@ -29,7 +29,11 @@ export default function Navbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setSearchQuery(localSearch);
-    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById('products');
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   };
 
   return (

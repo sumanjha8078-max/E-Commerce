@@ -90,9 +90,26 @@ export default function CategoryCards() {
             }}
             onClick={() => {
               setSearchQuery(item.categoryQuery);
-              document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              const el = document.getElementById('products');
+              if (el) {
+                const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              }
             }}
-            className={`${item.span} ${item.className} group relative h-[280px] md:h-[320px] rounded-3xl overflow-hidden p-6 md:p-8 flex items-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer shadow-lg`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setSearchQuery(item.categoryQuery);
+                const el = document.getElementById('products');
+                if (el) {
+                  const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            className={`${item.span} ${item.className} group relative h-[280px] md:h-[320px] rounded-3xl overflow-hidden p-6 md:p-8 flex items-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-pointer shadow-lg focus:outline-none focus:ring-4 focus:ring-white/50`}
           >
             <div className="relative z-20 w-full">
               <p className="text-white/80 font-semibold text-xs md:text-sm tracking-wider uppercase">
