@@ -163,7 +163,7 @@ export default function QuickViewModal() {
             </div>
             
             <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
-               <p className="text-xs text-gray-400">Prices are tracked continuously. Click 'View Deal' to verify final pricing on the merchant's site.</p>
+               <p className="text-xs text-gray-400">Prices are tracked continuously. Click &apos;View Deal&apos; to verify final pricing on the merchant&apos;s site.</p>
             </div>
           </div>
         </div>

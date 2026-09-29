@@ -22,6 +22,7 @@ export default function Navbar() {
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
     setLocalSearch(searchQuery);
   }, [searchQuery]);
@@ -155,7 +156,7 @@ export default function Navbar() {
           <li onClick={() => { setSearchQuery('Fashion'); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#ff2d3d]">Fashion</li>
           <li onClick={() => { setSearchQuery('Home Appliances'); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#ff2d3d]">Home Appliances</li>
           <li onClick={() => { setSearchQuery('Beauty'); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#ff2d3d]">Beauty</li>
-          <li onClick={() => { setSearchQuery(''); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#ff2d3d] text-[#ff2d3d] font-bold flex items-center gap-1">Today's Best Drops <FaFire/></li>
+          <li onClick={() => { setSearchQuery(''); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }} className="cursor-pointer hover:text-[#ff2d3d] text-[#ff2d3d] font-bold flex items-center gap-1">Today&apos;s Best Drops <FaFire/></li>
         </ul>
       </div>
     </nav>

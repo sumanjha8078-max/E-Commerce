@@ -40,6 +40,7 @@ export default function ProductCard({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
   }, []);
 
@@ -117,8 +118,8 @@ export default function ProductCard({
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M10 14h.01M14 10h.01M10 10h.01M14 14h.01" />
           </svg>
-          <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">No deals found for "{searchQuery}"</h3>
-          <p className="text-gray-400 max-w-md">We couldn't find any live price drops for this query right now. Try searching for a broader category or check back later!</p>
+          <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">No deals found for &quot;{searchQuery}&quot;</h3>
+          <p className="text-gray-400 max-w-md">We couldn&apos;t find any live price drops for this query right now. Try searching for a broader category or check back later!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
