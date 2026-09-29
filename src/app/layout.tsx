@@ -44,11 +44,13 @@ export const metadata: Metadata = {
     siteName: 'GreedyCart',
     locale: 'en_IN',
     type: 'website',
+    images: [{ url: '/headphone.png', width: 1200, height: 630, alt: 'GreedyCart' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'GreedyCart — Compare Prices Across Amazon, Flipkart, Myntra & More',
     description: 'Compare prices instantly across all top Indian platforms. Stop overpaying.',
+    images: ['/headphone.png'],
   },
 };
 
@@ -59,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} h-full antialiased`}
     >
