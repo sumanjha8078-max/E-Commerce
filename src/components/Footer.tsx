@@ -4,26 +4,19 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaPaperPlane, FaCheck, FaShoppingCart } from "react-icons/fa";
-import toast from "react-hot-toast";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = async (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      try {
-        // Simulating API call
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setSubscribed(true);
-        setTimeout(() => {
-          setSubscribed(false);
-          setEmail("");
-        }, 3000);
-      } catch (err) {
-        toast.error("Something went wrong. Please try again.");
-      }
+      setSubscribed(true);
+      setTimeout(() => {
+        setSubscribed(false);
+        setEmail("");
+      }, 3000);
     }
   };
 

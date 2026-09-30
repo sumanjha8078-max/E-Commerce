@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 const slides = [
   {
     small: "Massive Price Drop",
-    product: products.find(p => p.id === "2") || products[0], // Sony WH-1000XM5
+    product: products.find(p => p.id === "2")!, // Sony WH-1000XM5
     big: "HEADPHONES",
     image: "/headphone.png",
     btnText: "View Offers",
@@ -22,15 +22,15 @@ const slides = [
   },
   {
     small: "Deal of the Day",
-    product: products.find(p => p.id === "5") || products[1], // PS5
+    product: products.find(p => p.id === "5")!, // PS5
     big: "GAMING",
-    image: "/ps5.png", // Fixed from /vrmen.png
+    image: "/vrmen.png", // keeping image but it's a VR guy. We can use product.image or keep placeholder
     btnText: "Compare Prices",
     action: "view",
   },
   {
     small: "Top Selling",
-    product: products.find(p => p.id === "9") || products[2], // MacBook
+    product: products.find(p => p.id === "9")!, // MacBook
     big: "LAPTOPS",
     image: "/macbook.png",
     btnText: "Add to Watchlist",

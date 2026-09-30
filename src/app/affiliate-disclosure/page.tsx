@@ -3,22 +3,12 @@ export default function AffiliateDisclosurePage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-20">
       <h1 className="text-4xl font-black mb-8">Affiliate Disclosure</h1>
-      <div className="prose prose-lg dark:prose-invert">
-        <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-          Transparency is core to the GreedyCart experience. This page explains how we monetize our service while remaining free for users.
-        </p>
-        <h2 className="text-2xl font-bold mt-8 mb-4">How We Earn</h2>
-        <p>
-          GreedyCart participates in various affiliate marketing programs. When you click on a "Buy Now" or "View Deal" link and make a purchase on a partner site (e.g., Amazon, Flipkart, Myntra), the merchant may pay us a small commission.
-        </p>
-        <h2 className="text-2xl font-bold mt-8 mb-4">No Cost to You</h2>
-        <p>
-          This commission is paid by the merchant and does not increase the price of the product you are buying. In many cases, our aggregation actually helps you find a lower price than you would have found alone.
-        </p>
-        <h2 className="text-2xl font-bold mt-8 mb-4">Our Integrity Pledge</h2>
-        <p>
-          Our GreedyScore and product rankings are based on strict mathematical formulas and real-time pricing data. We do not accept payments from brands to artificially inflate their scores or move them to the top of our search results. The best deal always wins.
-        </p>
+      <div className="prose dark:prose-invert">
+        <p>GreedyCart is a participant in various affiliate marketing programs, which means we may get paid commissions on editorially chosen products purchased through our links to retailer sites.</p>
+        <h2>How It Works</h2>
+        <p>When you click on a link on GreedyCart that leads to a third-party retailer and make a purchase, we may earn a small commission from that sale. This does not affect the price you pay for the product.</p>
+        <h2>Our Commitment</h2>
+        <p>Our priority is to help you find the best deals. The inclusion of affiliate links does not influence our algorithm or the GreedyScore we assign to products.</p>
       </div>
     </main>
   );

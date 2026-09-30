@@ -70,8 +70,7 @@ export default function Navbar() {
               className="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-[#ff2d3d] focus:bg-white dark:focus:bg-gray-900 rounded-full py-3 pl-12 pr-4 text-sm font-medium outline-none transition-all duration-300"
             />
             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#ff2d3d] hover:bg-black text-white px-6 py-1.5 rounded-full text-sm font-bold transition-colors cursor-pointer">
-            <FaSearch className="text-xs" />
-          </button>
+            </button>
           </form>
         </div>
 
@@ -135,21 +134,13 @@ export default function Navbar() {
       <div className="px-4 pb-3 block md:hidden">
          <form onSubmit={handleSearch} className="relative w-full">
             <FaSearch className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400" />
-            <div className="relative flex items-center">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={localSearch}
-                onChange={(e) => setLocalSearch(e.target.value)}
-                className="w-full bg-gray-100 dark:bg-gray-800 rounded-full py-2.5 pl-10 pr-12 text-sm outline-none"
-              />
-              <button
-                type="submit"
-                className="absolute right-1 top-1/2 -translate-y-1/2 bg-[#ff2d3d] text-white px-3 py-1 rounded-full text-xs font-bold"
-              >
-                Search
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={localSearch}
+              onChange={(e) => setLocalSearch(e.target.value)}
+              className="w-full bg-gray-100 dark:bg-gray-800 rounded-full py-2.5 pl-10 pr-4 text-sm outline-none"
+            />
          </form>
       </div>
 
