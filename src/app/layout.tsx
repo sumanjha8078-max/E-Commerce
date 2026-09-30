@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import StoreHydrator from "@/components/StoreHydrator";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
-import { Roboto } from "next/font/google";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Toaster } from "react-hot-toast";
@@ -15,11 +14,6 @@ import QuickViewModal from "@/components/QuickViewModal";
 import LoginModal from "@/components/LoginModal";
 
 import SessionWrapper from "@/components/SessionWrapper";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,18 +58,18 @@ export default function RootLayout({
     <html
       lang="en-IN"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
         <SessionWrapper>
-          <ThemeProvider 
+          <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
           >
             <DemoDataBadge />
-            <Toaster 
-              position="top-center" 
+            <Toaster
+              position="top-center"
               toastOptions={{
                 className: 'dark:bg-gray-800 dark:text-white rounded-2xl shadow-xl font-medium border border-gray-100 dark:border-gray-700',
                 success: {
