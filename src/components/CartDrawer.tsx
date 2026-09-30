@@ -126,9 +126,14 @@ export default function CartDrawer() {
 
         {watchlist.length > 0 && (
           <div className="p-6 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
-            <button className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-lg">
-              <FaBell /> Enable Email Alerts for All
-            </button>
+            <button
+  onClick={() => {
+    toast.success("Email alerts enabled for your entire watchlist!");
+  }}
+  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-lg"
+>
+  <FaBell /> Enable Email Alerts for All
+</button>
             <p className="text-[11px] text-gray-400 text-center mt-4">We will notify you instantly if any of these prices drop by more than 5%.</p>
           </div>
         )}

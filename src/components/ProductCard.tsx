@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
 import { formatCurrency } from "../utils/formatCurrency";
-
-
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart, FaEye } from "react-icons/fa";
@@ -14,20 +12,18 @@ import PriceTag from "../components/PriceTag";
 import { computeBestDiscount } from "../lib/score";
 import toast from "react-hot-toast";
 
-
-
-export default function ProductCard({ 
-  title = "Trending Price Drops", 
+export default function ProductCard({
+  title = "Trending Price Drops",
   defaultQuery = "trending",
   hideSearch = false,
   limit = 10,
-  showSeeMore = false 
-}: { 
-  title?: React.ReactNode, 
+  showSeeMore = false
+}: {
+  title?: React.ReactNode,
   defaultQuery?: string,
   hideSearch?: boolean,
   limit?: number,
-  showSeeMore?: boolean 
+  showSeeMore?: boolean
 } = {}) {
   const { toggleWatchlist, watchlist, searchQuery, setQuickViewProduct } = useStore();
   const [mounted, setMounted] = useState(false);
@@ -37,7 +33,6 @@ export default function ProductCard({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line
     setMounted(true);
   }, []);
 
@@ -46,6 +41,11 @@ export default function ProductCard({
 
   useEffect(() => {
     const fetchProducts = async () => {
+      // Avoid redundant API calls if the query hasn't changed and we already have products
+      if (effectiveQuery === searchQuery && liveProducts.length > 0 && !hideSearch) {
+        return;
+      }
+
       setLoading(true);
       setError(null);
       try {
@@ -77,12 +77,10 @@ export default function ProductCard({
       } finally {
         setLoading(false);
       }
-    
     };
     fetchProducts();
   }, [debouncedQuery, effectiveQuery]);
 
-  // If hideSearch is true, don't show the section if it's empty during a search
   if (hideSearch && searchQuery) return null;
 
   return (
@@ -99,8 +97,8 @@ export default function ProductCard({
         <div className="flex flex-col items-center justify-center py-20 text-gray-500 bg-red-50 dark:bg-red-900/10 rounded-3xl border border-red-100 dark:border-red-900/30">
           <span className="text-6xl mb-4">⚠️</span>
           <p className="text-xl font-medium text-red-500">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <button
+            onClick={() => window.location.reload()}
             className="mt-4 px-6 py-2 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-full text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/80 transition-colors"
           >
             Retry
@@ -136,8 +134,7 @@ export default function ProductCard({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {liveProducts.slice(0, limit).map((item, index) => {
             const isTracked = mounted ? watchlist.some(w => w.id === item.id) : false;
-             // Already sorted by lowest price
-            
+
             return (
               <motion.div
                 key={item.id}
@@ -156,19 +153,12 @@ export default function ProductCard({
                 role="button"
                 tabIndex={0}
               >
-                {/* Image Section */}
                 <div className="relative h-[220px] w-full bg-[#f8f9fa] dark:bg-gray-900/50 flex items-center justify-center p-6">
-                  {/* GreedyScore Badge */}
-                  
-
-                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-[200px] h-[200px] object-contain transition-transform duration-500 group-hover:scale-110"
                   />
-
-                  {/* Watchlist Button */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -183,49 +173,39 @@ export default function ProductCard({
                       <FaRegHeart className="text-gray-400 hover:text-[#ff2d3d] text-sm" />
                     )}
                   </button>
-                  
-                  {/* Quick View Overlay */}
                   <div className="absolute inset-0 bg-black/5 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="bg-white text-black px-4 py-2 rounded-full font-bold text-xs flex items-center gap-2 shadow-lg translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                       <FaEye /> Compare Prices
                     </div>
                   </div>
                 </div>
-
-                {/* Content Section */}
                 <div className="p-5 flex-1 flex flex-col">
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 mb-1 leading-tight group-hover:text-[#ff2d3d] transition-colors">
-    {item.name}
-  </h3>
-  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 block">
-    {item.category} • {item.offers.length} Stores
-  </span>
-                  
+                    {item.name}
+                  </h3>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 block">
+                    {item.category} • {item.offers.length} Stores
+                  </span>
                   <div className="mt-auto">
-                    
-  <PriceTag product={item} />
-  
-  <div className="flex items-center gap-2 mt-2 mb-4">
-      <div className={`text-[10px] font-bold px-2 py-1 rounded-sm shadow-sm flex items-center gap-1 ${item.greedyScore >= 9 ? 'bg-emerald-100 text-emerald-800' : item.greedyScore >= 8 ? 'bg-lime-100 text-lime-800' : item.greedyScore >= 7 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
-        GreedyScore: {item.greedyScore.toFixed(1)}
-      </div>
-      <span className="text-[10px] text-gray-500">
-        {item.greedyScore >= 9 ? 'Excellent deal' : item.greedyScore >= 8 ? 'Great deal' : item.greedyScore >= 7 ? 'Good deal' : 'Fair deal'}
-      </span>
-  </div>
-  
-  <div className="flex flex-col gap-2 mt-4">
-    {item.offers.slice(0, 3).map((offer, idx) => (
-      <div key={idx} className={`flex items-center justify-between text-[10px] px-2 py-1 rounded-md ${idx === 0 ? 'bg-red-50 text-red-700 font-bold border border-red-100' : 'bg-gray-50 text-gray-600'}`}>
-        <span>{offer.vendorName}</span>
-        <span>{formatCurrency(offer.price)}</span>
-      </div>
-    ))}
-  </div>
-  
-  </div>
-  </div>
-  
+                    <PriceTag product={item} />
+                    <div className="flex items-center gap-2 mt-2 mb-4">
+                      <div className={`text-[10px] font-bold px-2 py-1 rounded-sm shadow-sm flex items-center gap-1 ${item.greedyScore >= 9 ? 'bg-emerald-100 text-emerald-800' : item.greedyScore >= 8 ? 'bg-lime-100 text-lime-800' : item.greedyScore >= 7 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}`}>
+                        GreedyScore: {item.greedyScore.toFixed(1)}
+                      </div>
+                      <span className="text-[10px] text-gray-500">
+                        {item.greedyScore >= 9 ? 'Excellent deal' : item.greedyScore >= 8 ? 'Great deal' : item.greedyScore >= 7 ? 'Good deal' : 'Fair deal'}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-2 mt-4">
+                      {item.offers.slice(0, 3).map((offer, idx) => (
+                        <div key={idx} className={`flex items-center justify-between text-[10px] px-2 py-1 rounded-md ${idx === 0 ? 'bg-red-50 text-red-700 font-bold border border-red-100' : 'bg-gray-50 text-gray-600'}`}>
+                          <span>{offer.vendorName}</span>
+                          <span>{formatCurrency(offer.price)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             );
           })}
@@ -234,8 +214,8 @@ export default function ProductCard({
 
       {showSeeMore && liveProducts.length > limit && (
         <div className="mt-12 flex justify-center">
-          <Link 
-            href={`/category/${encodeURIComponent(defaultQuery)}`}
+          <Link
+            href={`/category/${encodeURIComponent(defaultQuery.toLowerCase().replace(/\s+/g, '-'))}`}
             className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold shadow-md hover:scale-105 transition-all duration-300"
           >
             See More Deals
