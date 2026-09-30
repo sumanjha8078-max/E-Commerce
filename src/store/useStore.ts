@@ -5,8 +5,9 @@ import { Product } from '@/types';
 interface StoreState {
   watchlist: Product[];
   searchQuery: string;
-  isCartOpen: boolean; // Reused for Watchlist Drawer
+  isCartOpen: boolean; 
   quickViewProduct: Product | null;
+  isLoginModalOpen: boolean;
   
   // Actions
   toggleWatchlist: (product: Product) => void;
@@ -14,6 +15,8 @@ interface StoreState {
   setSearchQuery: (query: string) => void;
   setIsCartOpen: (isOpen: boolean) => void;
   setQuickViewProduct: (product: Product | null) => void;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
 export const useStore = create<StoreState>()(
@@ -23,6 +26,7 @@ export const useStore = create<StoreState>()(
       searchQuery: '',
       isCartOpen: false,
       quickViewProduct: null,
+      isLoginModalOpen: false,
 
       toggleWatchlist: (product) =>
         set((state) => {
@@ -41,6 +45,8 @@ export const useStore = create<StoreState>()(
       setSearchQuery: (query) => set({ searchQuery: query }),
       setIsCartOpen: (isOpen) => set({ isCartOpen: isOpen }),
       setQuickViewProduct: (product) => set({ quickViewProduct: product }),
+      openLoginModal: () => set({ isLoginModalOpen: true }),
+      closeLoginModal: () => set({ isLoginModalOpen: false }),
     }),
     {
       name: 'greedycart-storage',

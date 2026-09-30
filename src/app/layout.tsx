@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Toaster } from "react-hot-toast";
 import CartDrawer from "@/components/CartDrawer";
 import QuickViewModal from "@/components/QuickViewModal";
+import LoginModal from "@/components/LoginModal";
 
 import SessionWrapper from "@/components/SessionWrapper";
 
@@ -91,6 +92,7 @@ export default function RootLayout({
             <Footer />
             <CartDrawer />
             <QuickViewModal />
+            <LoginModal />
           </ThemeProvider>
         </SessionWrapper>
       </body>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { formatCurrency } from "../utils/formatCurrency";
 
 
@@ -18,11 +19,15 @@ import toast from "react-hot-toast";
 export default function ProductCard({ 
   title = "Trending Price Drops", 
   defaultQuery = "trending",
-  hideSearch = false 
+  hideSearch = false,
+  limit = 10,
+  showSeeMore = false 
 }: { 
   title?: React.ReactNode, 
   defaultQuery?: string,
-  hideSearch?: boolean 
+  hideSearch?: boolean,
+  limit?: number,
+  showSeeMore?: boolean 
 } = {}) {
   const { toggleWatchlist, watchlist, searchQuery, setQuickViewProduct } = useStore();
   const [mounted, setMounted] = useState(false);
@@ -129,7 +134,7 @@ export default function ProductCard({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {liveProducts.map((item, index) => {
+          {liveProducts.slice(0, limit).map((item, index) => {
             const isTracked = mounted ? watchlist.some(w => w.id === item.id) : false;
              // Already sorted by lowest price
             
@@ -224,6 +229,17 @@ export default function ProductCard({
               </motion.div>
             );
           })}
+        </div>
+      )}
+
+      {showSeeMore && liveProducts.length > limit && (
+        <div className="mt-12 flex justify-center">
+          <Link 
+            href={`/category/${encodeURIComponent(defaultQuery)}`}
+            className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold shadow-md hover:scale-105 transition-all duration-300"
+          >
+            See More Deals
+          </Link>
         </div>
       )}
     </section>

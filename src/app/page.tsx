@@ -27,18 +27,24 @@ export default function Home() {
         title="Top Gadgets & Tech 💻" 
         defaultQuery="laptops and smartwatches" 
         hideSearch={true}
+        limit={5}
+        showSeeMore={true}
       />
 
       <ProductCard 
         title="Fashion & Apparel 👕" 
         defaultQuery="clothing and shoes" 
         hideSearch={true}
+        limit={5}
+        showSeeMore={true}
       />
       
       <ProductCard 
         title="Home & Kitchen Appliances 🏠" 
         defaultQuery="appliances" 
         hideSearch={true}
+        limit={5}
+        showSeeMore={true}
       />
       
       {/* Aggregator Benefits */}

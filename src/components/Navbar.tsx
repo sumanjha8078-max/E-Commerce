@@ -17,7 +17,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
   
-  const { watchlist, setIsCartOpen, searchQuery, setSearchQuery } = useStore();
+  const { watchlist, setIsCartOpen, searchQuery, setSearchQuery, openLoginModal } = useStore();
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
   useEffect(() => {
@@ -117,12 +117,12 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link href="/login" className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-black dark:text-white px-5 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer">
+                  <button onClick={openLoginModal} className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-black dark:text-white px-5 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer">
                     Sign In
-                  </Link>
-                  <Link href="/login" className="bg-[#ff2d3d] hover:bg-[#e02635] text-white px-5 py-2 rounded-full text-xs font-bold shadow-md transition-colors cursor-pointer">
+                  </button>
+                  <button onClick={openLoginModal} className="bg-[#ff2d3d] hover:bg-[#e02635] text-white px-5 py-2 rounded-full text-xs font-bold shadow-md transition-colors cursor-pointer">
                     Sign Up
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
